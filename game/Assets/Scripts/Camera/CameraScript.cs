@@ -16,7 +16,7 @@ public class CameraScript : MonoBehaviour {
         	{
         		transform.position = startPos;
         	}
-            if(Input.mousePosition.x < krai){
+            if(Input.mousePosition.x < krai  ){
                     transform.position -= new Vector3 (speed,0,0) * Time.deltaTime;
             }
             if(Input.mousePosition.x > Screen.width - krai){
