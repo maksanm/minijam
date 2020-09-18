@@ -160,8 +160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc421349f34e30c40ad1f63137afc052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  krai: 10
-  speed: 10
+  krai: 5
+  speed: 50
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
