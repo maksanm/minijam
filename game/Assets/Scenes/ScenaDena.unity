@@ -224,6 +224,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquadEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7165721704892944378, guid: 99e8e1f3928bda347adeb0dc42b1cf05,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8830984789621382471, guid: 99e8e1f3928bda347adeb0dc42b1cf05,
         type: 3}
       propertyPath: m_Sprite
@@ -5193,10 +5198,20 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3957002489361861064, guid: 49a2c463d3254fb40912670d8db8ada1,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7165721704892944378, guid: 49a2c463d3254fb40912670d8db8ada1,
         type: 3}
       propertyPath: m_Name
       value: Squad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7165721704892944378, guid: 49a2c463d3254fb40912670d8db8ada1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Allies
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8830984789631102458, guid: 49a2c463d3254fb40912670d8db8ada1, type: 3}
