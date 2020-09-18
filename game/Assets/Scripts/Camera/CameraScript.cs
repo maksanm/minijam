@@ -16,16 +16,16 @@ public class CameraScript : MonoBehaviour {
         	{
         		transform.position = startPos;
         	}
-            if(Input.mousePosition.x < krai  ){
+            if(Input.mousePosition.x < krai && transform.position.x > -7.76f){
                     transform.position -= new Vector3 (speed,0,0) * Time.deltaTime;
             }
-            if(Input.mousePosition.x > Screen.width - krai){
+            if(Input.mousePosition.x > Screen.width - krai && transform.position.x < 32.25f){
                     transform.position += new Vector3 (speed,0,0) * Time.deltaTime;
             }
-            if(Input.mousePosition.y < krai){
+            if(Input.mousePosition.y < krai && transform.position.y > -55.52f){
                     transform.position -= new Vector3 (0,speed,0) * Time.deltaTime;
             }
-            if(Input.mousePosition.y > Screen.height - krai){
+            if(Input.mousePosition.y > Screen.height - krai && transform.position.y < -2f){
                     transform.position += new Vector3 (0,speed,0) * Time.deltaTime;
             }
         }
