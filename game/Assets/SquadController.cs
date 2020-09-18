@@ -37,7 +37,7 @@ public class SquadController : MonoBehaviour
 
     private string team;
     private bool isEngage;
-
+    private bool isCooldown;
 
     private GameObject Enemy;
     private SquadController[] ListOfEnemies;
@@ -168,7 +168,7 @@ public class SquadController : MonoBehaviour
     }
     private void UpdateEngageState()
     {
-        if (Enemy)
+        if (Enemy && transform.childCount != 0)
         {
             Rotation = Mathf.Atan2(Enemy.transform.position.y - transform.position.y,
                                    Enemy.transform.position.x - transform.position.x);
@@ -178,6 +178,32 @@ public class SquadController : MonoBehaviour
             //Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
             //Vector2 force = direction * speed * Time.deltaTime;
 
+
+            if (damageProjectile)
+            { 
+
+                StartCoroutine(LaunchProjectile());
+            }
+        }
+        else if (transform.childCount == 0)
+        {
+            DestroyImmediate(gameObject);
+        }
+        else
+        {
+            for (int i = 0; i < transform.childCount; i++)
+                transform.GetChild(i).localRotation = Quaternion.Euler(0, 0, 0);
+            Debug.Log("OKEJ");
+            currentState = State.Waiting;
+        }
+    }
+    
+    private IEnumerator LaunchProjectile()
+    {
+        if (!isCooldown && (Enemy.transform.childCount != 0 && transform.childCount != 0))
+        {
+            isCooldown = true;
+
             int RandomOrigin;
             int RandomTarget;
 
@@ -185,39 +211,29 @@ public class SquadController : MonoBehaviour
             Vector2 TargetPosition;
             float RotationAlly;
 
-            if (damageProjectile)
-            { 
+            RandomOrigin = Random.Range(0, transform.childCount);
+            RandomTarget = Random.Range(0, Enemy.transform.childCount);
 
-                RandomOrigin = Random.Range(0, transform.childCount);
-                RandomTarget = Random.Range(0, Enemy.transform.childCount);
+            OriginPosition = transform.GetChild(RandomOrigin).position;
+            TargetPosition = Enemy.transform.GetChild(RandomTarget).position;
 
-                OriginPosition = transform.GetChild(RandomOrigin).position;
-                TargetPosition = Enemy.transform.GetChild(RandomTarget).position;
+            RotationAlly = Mathf.Atan2(TargetPosition.y - OriginPosition.y,
+                                       TargetPosition.x - OriginPosition.x);
 
-                RotationAlly = Mathf.Atan2(TargetPosition.y - OriginPosition.y,
-                                           TargetPosition.x - OriginPosition.x);
+            transform.GetChild(RandomOrigin).rotation = Quaternion.Euler(0, 0, RotationAlly * Mathf.Rad2Deg);
 
-                transform.GetChild(RandomOrigin).rotation = Quaternion.Euler(0, 0, RotationAlly * Mathf.Rad2Deg);
-
-                LaunchProjectile(OriginPosition, TargetPosition, RotationAlly);
+            GameObject launchedProjectile = Instantiate(damageProjectile, OriginPosition, Quaternion.Euler(0, 0, RotationAlly * Mathf.Rad2Deg));
+            BeamProjectile beam = launchedProjectile.GetComponent<BeamProjectile>();
+            if (beam)
+            {
+                beam.team = tag;
+                beam.damage = damage;
             }
-        }
-        else
-        {
-            for (int i = 0; i < transform.childCount; i++)
-                transform.GetChild(i).rotation = new Quaternion(0, 0, 0, 1);
+            launchedProjectile.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(RotationAlly), Mathf.Sin(RotationAlly)) * launchForce;
 
-            currentState = State.Waiting;
+            yield return new WaitForSecondsRealtime(attackCooldown);
+            isCooldown = false;
         }
-    }
-    
-    private IEnumerator LaunchProjectile(Vector2 origin, Vector2 target, float angle)
-    {
-       
-        GameObject launchedProjectile = Instantiate(damageProjectile, origin, new Quaternion(0,0,angle*Mathf.Rad2Deg, 1));
-        launchedProjectile.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * launchForce;
-        Debug.Log("OK");
-        yield return new WaitForSecondsRealtime(attackCooldown);
     }
 
     // GameObject need to get Enemy (transform and etc.)
@@ -258,7 +274,7 @@ public class SquadController : MonoBehaviour
         }
 
         // If enemy in EngageRange -> Initiate Battle
-        if (minDistanceIndex != -1 && minDistance == engageRange)
+        if (minDistanceIndex != -1 && minDistance <= engageRange)
         {
             Enemy = ListOfEnemies[minDistanceIndex].gameObject;
             currentState = State.Engage;
