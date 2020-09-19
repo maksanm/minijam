@@ -88,18 +88,10 @@ public class TilemapUI : MonoBehaviour
             //int IndX = 1;
             //int IndY = 1;
 
-            //if (NewCellPosition.x > OldCellPosition.x)
-            //{
-            //    IndX = -1;
-
-            //}
-                
             //if (NewCellPosition.y < OldCellPosition.y)
-            //    IndY = -1;
-
-            OldCellPosition.y += engageRange;
-            NewCellPosition.y += engageRange;
-
+            //{
+            //    PosYTmpOld -= engageRange;
+            //}
 
 
             for (int i = 0; i < width; i++)
