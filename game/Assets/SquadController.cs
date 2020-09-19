@@ -19,6 +19,7 @@ public class SquadController : MonoBehaviour
 
     [Header("Effects")]
     public float launchForce;
+    public GameObject hitParticleSystem;
     public GameObject damageProjectile;
     
     private Path path;
@@ -27,6 +28,8 @@ public class SquadController : MonoBehaviour
 
     private Seeker seeker;
     private Rigidbody2D rb;
+
+    private Vector3Int currentCellPosition;
 
     private Vector2 target;
     private Vector2 screenPosition;
@@ -41,6 +44,8 @@ public class SquadController : MonoBehaviour
 
     private GameObject Enemy;
     private SquadController[] ListOfEnemies;
+
+    private TilemapUI Tilemap;
 
     private State currentState;
     private enum State
@@ -62,7 +67,12 @@ public class SquadController : MonoBehaviour
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
 
+
         grid = FindObjectOfType<Grid>();
+        Tilemap = FindObjectOfType<TilemapUI>();
+        CheckFillCell(grid.WorldToCell(transform.position), tag);
+        //currentCellPosition = grid.WorldToCell(transform.position);
+
 
         team = tag;
 
@@ -70,6 +80,8 @@ public class SquadController : MonoBehaviour
             ButtonTmp = 1;
         else
             ButtonTmp = 0;
+
+        gameObject.layer = LayerMask.NameToLayer("Obstacle");
     }
 
     void OnPathComplete(Path p)
@@ -110,6 +122,10 @@ public class SquadController : MonoBehaviour
         if (Input.GetMouseButtonDown(ButtonTmp))
         {
             StartMove();
+        }
+        else if (transform.childCount == 0)
+        {
+            Die();
         }
         else
         {
@@ -162,6 +178,8 @@ public class SquadController : MonoBehaviour
 
             if (distance < nextWaypointDistance)
             {
+                Vector3Int currentPos = grid.WorldToCell(new Vector2(transform.position.x, transform.position.y));
+                CheckFillCell(currentPos, tag);
                 currentWaypoint++;
             }
         }
@@ -187,13 +205,12 @@ public class SquadController : MonoBehaviour
         }
         else if (transform.childCount == 0)
         {
-            DestroyImmediate(gameObject);
+            Die();
         }
         else
         {
             for (int i = 0; i < transform.childCount; i++)
                 transform.GetChild(i).localRotation = Quaternion.Euler(0, 0, 0);
-            Debug.Log("OKEJ");
             currentState = State.Waiting;
         }
     }
@@ -243,13 +260,24 @@ public class SquadController : MonoBehaviour
         Enemy = enemy;
     }
 
+    private void Die()
+    {
+        CheckFillCell(currentCellPosition, "None");
+        DestroyImmediate(gameObject);
+    }
+
     private void CheckEnemies()
     {
 
         Vector2 targetTmp;
         Vector3Int targetPos;
 
-        Vector3Int currentPos = grid.WorldToCell(new Vector3(transform.position.x, transform.position.y, 0));
+        Vector3Int currentPos = grid.WorldToCell(new Vector2(transform.position.x, transform.position.y));
+
+        // Changing color of Grid Cell
+        CheckFillCell(currentPos, tag);
+        //
+
         float distance;
         float minDistance = Mathf.Infinity;
         int minDistanceIndex = -1;
@@ -277,11 +305,12 @@ public class SquadController : MonoBehaviour
         if (minDistanceIndex != -1 && minDistance <= engageRange)
         {
             Enemy = ListOfEnemies[minDistanceIndex].gameObject;
+            Enemy.GetComponent<SquadController>().CallEngage(gameObject);
             currentState = State.Engage;
         }
 
         // If enemy in VisionRange -> Can be attacked in DefendMode \\ In WaitingMode just watch on enemy
-        if (minDistanceIndex != -1 && (visionRange >= minDistance || visionRange + (Mathf.Sqrt(2)-1) == minDistance))
+        if (minDistanceIndex != -1 && (visionRange >= minDistance))
         {
             Rotation = Mathf.Atan2(ListOfEnemies[minDistanceIndex].gameObject.transform.position.y - transform.position.y,
                                    ListOfEnemies[minDistanceIndex].gameObject.transform.position.x - transform.position.x);
@@ -289,6 +318,20 @@ public class SquadController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, Rotation * Mathf.Rad2Deg);
         }
 
+    }
+
+    private void CheckFillCell(Vector3Int NewCurrentPos, string team)
+    {
+        if (NewCurrentPos != currentCellPosition)
+        {
+            if (Tilemap)
+            {
+                Tilemap.RefreshCell(NewCurrentPos, currentCellPosition, team);
+            }
+            currentCellPosition = NewCurrentPos;
+        }
+        else if (team == "None")
+            Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, team);
     }
 
     private Vector3Int GetCellInGrid(Vector2 ObjectPosition)
@@ -315,7 +358,10 @@ public class SquadController : MonoBehaviour
         target = new Vector2(grid.CellToWorld(position).x + 1.65f, grid.CellToWorld(position).y + 1.65f);
 
         SetAnim(1);
+
+        gameObject.layer = LayerMask.NameToLayer("Default");
         seeker.StartPath(transform.position, target, OnPathComplete);
+        gameObject.layer = LayerMask.NameToLayer("Obstacle");
     }
 
 

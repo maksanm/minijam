@@ -47,6 +47,13 @@ public class ShipController : MonoBehaviour
     {
         currentHealth -= damage;
 
+        GameObject ParticleSystem = GetComponentInParent<SquadController>().hitParticleSystem;
+
+        if (ParticleSystem)
+        {
+            GameObject ParticleSystemInst = Instantiate(ParticleSystem, transform.position, Quaternion.identity);
+        }
+
         if (currentHealth <= 0)
         {
             Die();
