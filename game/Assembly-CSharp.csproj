@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BeamProjectile.cs" />
+    <Compile Include="Assets\CommandLine.cs" />
     <Compile Include="Assets\EnemyController.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraScript.cs" />
     <Compile Include="Assets\Scripts\Camera\StripMove120.cs" />

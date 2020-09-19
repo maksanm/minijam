@@ -31,6 +31,7 @@ public class SquadController : MonoBehaviour
 
     private Seeker seeker;
     private Rigidbody2D rb;
+    private Collider2D collider2d;
 
     private Vector3Int currentCellPosition;
 
@@ -71,7 +72,7 @@ public class SquadController : MonoBehaviour
 
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
-
+        collider2d = GetComponent<Collider2D>();
 
         grid = FindObjectOfType<Grid>();
         Tilemap = FindObjectOfType<TilemapUI>();
@@ -140,6 +141,7 @@ public class SquadController : MonoBehaviour
         }
         else
         {
+
             CheckEnemies();
 
             //if (!isKretin)
@@ -164,6 +166,8 @@ public class SquadController : MonoBehaviour
 
             if (currentWaypoint >= path.vectorPath.Count)
             {
+                collider2d.isTrigger = false;
+                StartCoroutine(Kretin());
                 currentState = State.Waiting;
 
                 currentWaypoint = 0;
@@ -200,12 +204,10 @@ public class SquadController : MonoBehaviour
     }
     private void UpdateEngageState()
     {
-        int distance = 0;
+        int distance = 1;
 
         CheckEnemies();
 
-        if (tag == "Enemy")
-            Debug.Log(Enemies.Count);
 
         if (Enemies.Count != 0 && !Enemy)
         {
@@ -424,8 +426,7 @@ public class SquadController : MonoBehaviour
             if (team == "None")
             {
                 Tilemap.FillCell(Pos, engageRange, team);
-                Tilemap.FillCell(Pos, 0, team);
-                //Tilemap.FillCell(Pos, 0, ");
+                Tilemap.FillCell(Pos, 0, tag);
             }
             else
                 Tilemap.FillCell(Pos, 0, team);
@@ -445,6 +446,7 @@ public class SquadController : MonoBehaviour
     private void StartMove()
     {
         // Changing current state to Moving
+        collider2d.isTrigger = true;
         currentState = State.Moving;
 
         screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
