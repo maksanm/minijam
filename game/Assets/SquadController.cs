@@ -9,6 +9,8 @@ public class SquadController : MonoBehaviour
     public float damage;
     public float lifetimeProjectile;
     public float attackCooldown;
+    [HideInInspector]
+    public float stepCooldown;
 
     [Header("Range")]
     public int visionRange;
@@ -42,9 +44,10 @@ public class SquadController : MonoBehaviour
     private string team;
     private bool isEngage;
     private bool isCooldown;
+    private bool isKretin;
 
     private GameObject Enemy;
-    Queue<GameObject> Enemies = new Queue<GameObject>();
+    private Queue<GameObject> Enemies = new Queue<GameObject>();
 
     private SquadController[] ListOfEnemies;
 
@@ -75,6 +78,8 @@ public class SquadController : MonoBehaviour
 
         team = tag;
 
+        stepCooldown = attackCooldown / transform.childCount;
+
         StartCoroutine(Kretin());
 
         if (team == "Allies")
@@ -96,10 +101,11 @@ public class SquadController : MonoBehaviour
 
     private IEnumerator Kretin()
     {
+        isKretin = true;
         yield return new WaitForSecondsRealtime(0.1f);
-        Debug.Log("MEM");
         currentCellPosition = grid.WorldToCell(transform.position);
         CheckFillCell(currentCellPosition, tag);
+        isKretin = false;
     }
 
     // Update is called once per frame
@@ -120,10 +126,6 @@ public class SquadController : MonoBehaviour
                 UpdateEngageState();
                 break;
         }
-
-   
-
-    
     }
 
     private void UpdateWaitingState()
@@ -139,6 +141,9 @@ public class SquadController : MonoBehaviour
         else
         {
             CheckEnemies();
+
+            //if (!isKretin)
+            //    StartCoroutine(Kretin());
         }
     }
     private void UpdateDefendState()
@@ -197,11 +202,18 @@ public class SquadController : MonoBehaviour
     {
         int distance = 0;
 
+        CheckEnemies();
+
+        if (tag == "Enemy")
+            Debug.Log(Enemies.Count);
+
         if (Enemies.Count != 0 && !Enemy)
         {
             Enemy = Enemies.Dequeue();
-            distance = CellDistance(transform.position, Enemy.transform.position);
         }
+
+        if (Enemies.Count != 0 && Enemy)
+            distance = CellDistance(transform.position, Enemy.transform.position);
 
         if (Enemy && distance <= engageRange && transform.childCount != 0)
         {
@@ -232,13 +244,28 @@ public class SquadController : MonoBehaviour
         {
             Die();
         }
-        else
+        else if (!Enemy && Enemies.Count == 0)
         {
             for (int i = 0; i < transform.childCount; i++)
                 transform.GetChild(i).localRotation = Quaternion.Euler(0, 0, 0);
 
+
+            // After fight fly to the center of cell
+            CheckFillCell(currentCellPosition, "None");
+            currentState = State.Moving;
+
+            currentCellPosition = grid.WorldToCell(transform.position);
+
+            Vector2 targetV2 = new Vector2(grid.CellToWorld(currentCellPosition).x + 1.65f, grid.CellToWorld(currentCellPosition).y + 1.65f);
+
+            SetAnim(1);
+
+            gameObject.layer = LayerMask.NameToLayer("Default");
+            Debug.Log(transform.position + " " + targetV2);
+            seeker.StartPath(transform.position, targetV2, OnPathComplete);
+            gameObject.layer = LayerMask.NameToLayer("Obstacle");
+
             CheckFillCell(currentCellPosition, tag);
-            currentState = State.Waiting;
         }
     }
 
@@ -341,7 +368,7 @@ public class SquadController : MonoBehaviour
 
             distance = CellDistance(transform.position, ListOfEnemies[i].gameObject.transform.position);
 
-            if (distance < minDistance)
+            if (distance < minDistance && !Enemies.Contains(ListOfEnemies[i].gameObject))
             {
                 minDistance = distance;
                 minDistanceIndex = i;
@@ -350,7 +377,7 @@ public class SquadController : MonoBehaviour
         }
 
         // If enemy in EngageRange -> Initiate Battle
-        if (minDistanceIndex != -1 && minDistance <= engageRange && !Enemies.Contains(ListOfEnemies[minDistanceIndex].gameObject))
+        if (minDistanceIndex != -1 && minDistance <= engageRange)
         {
             //Enemy = ListOfEnemies[minDistanceIndex].gameObject;
 
@@ -380,7 +407,7 @@ public class SquadController : MonoBehaviour
         {
             if (Tilemap)
             {
-                Tilemap.RefreshCell(NewCurrentPos, currentCellPosition, engageRange, team);
+                Tilemap.RefreshCell(NewCurrentPos, currentCellPosition, 0, team);
             }
             currentCellPosition = NewCurrentPos;
         }
@@ -394,7 +421,14 @@ public class SquadController : MonoBehaviour
     {
         if (Tilemap)
         {
-            Tilemap.FillCell(Pos, engageRange, team);
+            if (team == "None")
+            {
+                Tilemap.FillCell(Pos, engageRange, team);
+                Tilemap.FillCell(Pos, 0, team);
+                //Tilemap.FillCell(Pos, 0, ");
+            }
+            else
+                Tilemap.FillCell(Pos, 0, team);
         }
         currentCellPosition = Pos;
     }

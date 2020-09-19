@@ -13,6 +13,7 @@ public class ShipController : MonoBehaviour
     private float currentHealth;
 
     private Animator animator;
+    private SquadController Squad;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class ShipController : MonoBehaviour
         currentHealth = maxHealth;
 
         animator = GetComponent<Animator>();
+        Squad = GetComponentInParent<SquadController>();
     }
 
     // Update is called once per frame
@@ -63,6 +65,8 @@ public class ShipController : MonoBehaviour
 
     private void Die()
     {
+        Squad.attackCooldown += 5*Squad.stepCooldown;
+
         isDead = true;
         transform.SetParent(null);
         GetComponent<Collider2D>().enabled = false;

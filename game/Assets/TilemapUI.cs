@@ -187,6 +187,8 @@ public class TilemapUI : MonoBehaviour
                     map.SetTile(Position, TileToSetBlue);
                 else if (team == "Enemy")
                     map.SetTile(Position, TileToSetRed);
+                else if (team == "None")
+                    map.SetTile(Position, TileToSetDefault);
             }
 
         }
