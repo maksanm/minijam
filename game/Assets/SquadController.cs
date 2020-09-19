@@ -54,7 +54,6 @@ public class SquadController : MonoBehaviour
         Defend,
         Moving,
         Engage,
-
     }
 
     private int ButtonTmp;

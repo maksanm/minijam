@@ -28,7 +28,15 @@ public class TilemapUI : MonoBehaviour
 
     public void RefreshCell(Vector3Int NewCellPosition, Vector3Int OldCellPosition, string team)
     {
+        /*
+            .
+        1) ...
+            .
 
+           ...
+        2) ...
+           ...
+        */
         if (team == "Allies")
         {
             map.SetTile(OldCellPosition, TileToSetDefault);
@@ -48,16 +56,6 @@ public class TilemapUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector3Int CellPosition;
-        //for (int i = 0; i < Squads.Length; i++)
-        //{
-        //    CellPosition = map.WorldToCell(Squads[i].transform.position);
-        //    if (Squads[i].tag == "Allies" && TileToSetBlue)
-        //        map.SetTile(CellPosition, TileToSetBlue);
-        //    else if (Squads[i].tag == "Enemy" && TileToSetRed)
-        //        map.SetTile(CellPosition, TileToSetRed);
-        //}
-
         if (Input.GetMouseButton(2))
         {
             Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
