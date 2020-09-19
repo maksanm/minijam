@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 ﻿{"cameraMode":{"drawMode":0,"name":"Shaded","section":"Shading Mode"},"sceneLighting":true,"audioPlay":false,"sceneViewState":{"showFog":true,"showMaterialUpdate":false,"showSkybox":true,"showFlares":true,"showImageEffects":true,"showParticleSystems":true},"in2DMode":true,"pivot":{"x":17.090299606323243,"y":-30.15098762512207,"z":-24.783206939697267},"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0},"size":10.235090255737305,"orthographic":true}
+=======
+﻿{"cameraMode":{"drawMode":0,"name":"Shaded","section":"Shading Mode"},"sceneLighting":true,"audioPlay":false,"sceneViewState":{"showFog":true,"showMaterialUpdate":false,"showSkybox":true,"showFlares":true,"showImageEffects":true,"showParticleSystems":true},"in2DMode":true,"pivot":{"x":15.849651336669922,"y":-24.46649742126465,"z":-25.674291610717775},"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0},"size":22.298404693603517,"orthographic":true}
+>>>>>>> remotes/origin/master
