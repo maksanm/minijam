@@ -37,6 +37,7 @@ public class ShipController : MonoBehaviour
                 BeamProjectile beam = collider.GetComponent<BeamProjectile>();
                 if (collider.GetComponent<BeamProjectile>().team != tag)
                 {
+                    Destroy(collider.gameObject, 0.1f);
                     TakeDamage(beam.damage);
                 }
             }

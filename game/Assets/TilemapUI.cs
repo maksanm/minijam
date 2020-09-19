@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class TilemapUI : MonoBehaviour
 {
     public TileBase TileToSetDefault;
-
+    public TileBase TileToSetEngage;
     public TileBase TileToSetBlue;
     public TileBase TileToSetRed;
 
@@ -30,15 +30,6 @@ public class TilemapUI : MonoBehaviour
     {
         int width = 2 * engageRange + 1;
 
-        /*
-            .
-        1) ...
-            .
-
-           ...
-        2) ...  
-           ...
-        */
         if (team == "Allies")
         {
             int PosXTmpOld = OldCellPosition.x;
@@ -47,9 +38,10 @@ public class TilemapUI : MonoBehaviour
             int PosYTmpOld = OldCellPosition.y;
             int PosYTmpNew = NewCellPosition.y;
 
-            OldCellPosition.y += engageRange;
-            NewCellPosition.y += engageRange;
-
+            if ((NewCellPosition.y < OldCellPosition.y) && engageRange != 0)
+                PosYTmpOld += 2 * engageRange;
+            if ((NewCellPosition.x > OldCellPosition.x) && engageRange != 0)
+                PosXTmpOld -= 2 * engageRange;
 
             for (int i = 0; i < width; i++)
             {
@@ -67,14 +59,10 @@ public class TilemapUI : MonoBehaviour
                     OldCellPosition.x += j;
                     NewCellPosition.x += j;
 
-                    Debug.Log("--" + i + "------" + j + "--");
-                    Debug.Log(OldCellPosition);
-                    Debug.Log(NewCellPosition);
-
                     map.SetTile(OldCellPosition, TileToSetDefault);
                     map.SetTile(NewCellPosition, TileToSetBlue);
                 }
-                
+
             }
         }
         else if (team == "Enemy")
@@ -85,13 +73,11 @@ public class TilemapUI : MonoBehaviour
             int PosYTmpOld = OldCellPosition.y;
             int PosYTmpNew = NewCellPosition.y;
 
-            //int IndX = 1;
-            //int IndY = 1;
+            if ((NewCellPosition.y < OldCellPosition.y) && engageRange != 0)
+                PosYTmpOld += 2*engageRange;
+            if ((NewCellPosition.x > OldCellPosition.x) && engageRange != 0)
+                PosXTmpOld -= 2*engageRange;
 
-            //if (NewCellPosition.y < OldCellPosition.y)
-            //{
-            //    PosYTmpOld -= engageRange;
-            //}
 
 
             for (int i = 0; i < width; i++)
@@ -109,10 +95,6 @@ public class TilemapUI : MonoBehaviour
 
                     OldCellPosition.x += j;
                     NewCellPosition.x += j;
-
-                    Debug.Log("--" + i + "------" + j + "--");
-                    Debug.Log(OldCellPosition);
-                    Debug.Log(NewCellPosition);
 
                     map.SetTile(OldCellPosition, TileToSetDefault);
                     map.SetTile(NewCellPosition, TileToSetRed);
@@ -130,7 +112,6 @@ public class TilemapUI : MonoBehaviour
 
             for (int i = 0; i < width; i++)
             {
-                //Debug.Log(NewCellPosition.x);
 
                 OldCellPosition.y = PosYTmpOld + engageRange;
                 NewCellPosition.y = PosYTmpNew + engageRange;
@@ -146,15 +127,72 @@ public class TilemapUI : MonoBehaviour
                     OldCellPosition.x += j;
                     NewCellPosition.x += j;
 
-                    //Debug.Log("--" + i + "------" + j + "--");
-                    Debug.Log(NewCellPosition);
-
                     map.SetTile(NewCellPosition, TileToSetDefault);
                 }
 
             }
         }
+        else if (team == "Engage")
+        {
+            int PosXTmpOld = OldCellPosition.x;
+            int PosXTmpNew = NewCellPosition.x;
+
+            int PosYTmpOld = OldCellPosition.y;
+            int PosYTmpNew = NewCellPosition.y;
+
+            for (int i = 0; i < width; i++)
+            {
+
+                OldCellPosition.y = PosYTmpOld + engageRange;
+                NewCellPosition.y = PosYTmpNew + engageRange;
+
+                OldCellPosition.y -= i;
+                NewCellPosition.y -= i;
+
+                for (int j = 0; j < width; j++)
+                {
+                    OldCellPosition.x = PosXTmpOld - engageRange;
+                    NewCellPosition.x = PosXTmpNew - engageRange;
+
+                    OldCellPosition.x += j;
+                    NewCellPosition.x += j;
+
+                    map.SetTile(NewCellPosition, TileToSetEngage);
+                }
+
+            }
+        }
     }
+
+    public void FillCell(Vector3Int Position, int engageRange, string team)
+    {
+        int width = 2 * engageRange + 1;
+
+        int PosXTmpNew = Position.x;
+        int PosYTmpNew = Position.y;
+
+        for (int i = 0; i < width; i++)
+        {
+            Position.y = PosYTmpNew + engageRange;
+            Position.y -= i;
+
+            for (int j = 0; j < width; j++)
+            {
+                Position.x = PosXTmpNew - engageRange;
+                Position.x += j;
+
+
+
+                if (team == "Allies")
+                    map.SetTile(Position, TileToSetBlue);
+                else if (team == "Enemy")
+                    map.SetTile(Position, TileToSetRed);
+            }
+
+        }
+
+    }
+
 
     // Update is called once per frame
     void Update()

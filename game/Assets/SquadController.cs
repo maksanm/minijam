@@ -7,6 +7,7 @@ public class SquadController : MonoBehaviour
 {
     [Header("Combat")]
     public float damage;
+    public float lifetimeProjectile;
     public float attackCooldown;
 
     [Header("Range")]
@@ -43,12 +44,14 @@ public class SquadController : MonoBehaviour
     private bool isCooldown;
 
     private GameObject Enemy;
+    Queue<GameObject> Enemies = new Queue<GameObject>();
+
     private SquadController[] ListOfEnemies;
 
     private TilemapUI Tilemap;
 
     private State currentState;
-    private enum State
+    public enum State
     {
         Waiting,
         Defend,
@@ -70,9 +73,9 @@ public class SquadController : MonoBehaviour
         grid = FindObjectOfType<Grid>();
         Tilemap = FindObjectOfType<TilemapUI>();
 
-        Invoke("CheckFillCell(grid.WorldToCell(transform.position), tag)", 0.1f);
-
         team = tag;
+
+        StartCoroutine(Kretin());
 
         if (team == "Allies")
             ButtonTmp = 1;
@@ -89,6 +92,14 @@ public class SquadController : MonoBehaviour
             path = p;
             currentWaypoint = 0;
         }
+    }
+
+    private IEnumerator Kretin()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        Debug.Log("MEM");
+        currentCellPosition = grid.WorldToCell(transform.position);
+        CheckFillCell(currentCellPosition, tag);
     }
 
     // Update is called once per frame
@@ -177,29 +188,45 @@ public class SquadController : MonoBehaviour
             if (distance < nextWaypointDistance)
             {
                 Vector3Int currentPos = grid.WorldToCell(new Vector2(transform.position.x, transform.position.y));
-                CheckFillCell(currentPos, tag);
+                CheckFillCellMove(currentPos, tag);
                 currentWaypoint++;
             }
         }
     }
     private void UpdateEngageState()
     {
-        if (Enemy && transform.childCount != 0)
+        int distance = 0;
+
+        if (Enemies.Count != 0 && !Enemy)
+        {
+            Enemy = Enemies.Dequeue();
+            distance = CellDistance(transform.position, Enemy.transform.position);
+        }
+
+        if (Enemy && distance <= engageRange && transform.childCount != 0)
         {
             Rotation = Mathf.Atan2(Enemy.transform.position.y - transform.position.y,
                                    Enemy.transform.position.x - transform.position.x);
 
             transform.rotation = Quaternion.Euler(0, 0, Rotation * Mathf.Rad2Deg);
 
-            //Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-            //Vector2 force = direction * speed * Time.deltaTime;
-
 
             if (damageProjectile)
             { 
-
                 StartCoroutine(LaunchProjectile());
             }
+        }
+        else if (Enemy && distance > engageRange && transform.childCount != 0)
+        {
+
+            Rotation = Mathf.Atan2(Enemy.transform.position.y - transform.position.y,
+                                   Enemy.transform.position.x - transform.position.x);
+
+            transform.rotation = Quaternion.Euler(0, 0, Rotation * Mathf.Rad2Deg);
+
+            Vector2 direction = ((Vector2)Enemy.transform.position - (Vector2)transform.position).normalized;
+            Vector2 force = direction * speed/2 * Time.deltaTime;
+            rb.AddForce(force);
         }
         else if (transform.childCount == 0)
         {
@@ -209,10 +236,23 @@ public class SquadController : MonoBehaviour
         {
             for (int i = 0; i < transform.childCount; i++)
                 transform.GetChild(i).localRotation = Quaternion.Euler(0, 0, 0);
+
+            CheckFillCell(currentCellPosition, tag);
             currentState = State.Waiting;
         }
     }
-    
+
+    private int CellDistance(Vector3 Origin, Vector3 Target)
+    {
+        Vector3Int enemyCellPosition = grid.WorldToCell(new Vector2(Origin.x, Origin.y));
+        Vector3Int alliseCellPosition = grid.WorldToCell(new Vector2(Target.x, Target.y));
+
+        int distance = Mathf.FloorToInt(Vector2.Distance(new Vector2(enemyCellPosition.x, enemyCellPosition.y),
+                                                         new Vector2(alliseCellPosition.x, alliseCellPosition.y)));
+
+        return distance;
+    }
+
     private IEnumerator LaunchProjectile()
     {
         if (!isCooldown && (Enemy.transform.childCount != 0 && transform.childCount != 0))
@@ -224,25 +264,33 @@ public class SquadController : MonoBehaviour
 
             Vector2 OriginPosition;
             Vector2 TargetPosition;
+
+            Transform OriginTransform;
+
             float RotationAlly;
 
             RandomOrigin = Random.Range(0, transform.childCount);
             RandomTarget = Random.Range(0, Enemy.transform.childCount);
 
-            OriginPosition = transform.GetChild(RandomOrigin).position;
+            OriginTransform = transform.GetChild(RandomOrigin);
+
+            OriginPosition = OriginTransform.position;
             TargetPosition = Enemy.transform.GetChild(RandomTarget).position;
 
             RotationAlly = Mathf.Atan2(TargetPosition.y - OriginPosition.y,
                                        TargetPosition.x - OriginPosition.x);
 
-            transform.GetChild(RandomOrigin).rotation = Quaternion.Euler(0, 0, RotationAlly * Mathf.Rad2Deg);
+            OriginTransform.rotation = Quaternion.Euler(0, 0, RotationAlly * Mathf.Rad2Deg);
 
-            GameObject launchedProjectile = Instantiate(damageProjectile, OriginPosition, Quaternion.Euler(0, 0, RotationAlly * Mathf.Rad2Deg));
+            Vector2 OriginFirepoint = OriginTransform.GetChild(0).GetChild(Random.Range(0, OriginTransform.GetChild(0).childCount)).position;
+
+            GameObject launchedProjectile = Instantiate(damageProjectile, OriginFirepoint, Quaternion.Euler(0, 0, RotationAlly * Mathf.Rad2Deg));
             BeamProjectile beam = launchedProjectile.GetComponent<BeamProjectile>();
             if (beam)
             {
                 beam.team = tag;
                 beam.damage = damage;
+                beam.lifetime = lifetimeProjectile;
             }
             launchedProjectile.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(RotationAlly), Mathf.Sin(RotationAlly)) * launchForce;
 
@@ -254,13 +302,14 @@ public class SquadController : MonoBehaviour
     // GameObject need to get Enemy (transform and etc.)
     public void CallEngage(GameObject enemy)
     {
+        CheckFillCellMove(currentCellPosition, "Engage");
         currentState = State.Engage;
-        Enemy = enemy;
+        Enemies.Enqueue(enemy);
     }
 
     private void Die()
     {
-        CheckFillCell(currentCellPosition, "None");
+        CheckFillCellMove(currentCellPosition, "None");
         DestroyImmediate(gameObject);
     }
 
@@ -273,10 +322,11 @@ public class SquadController : MonoBehaviour
         Vector3Int currentPos = grid.WorldToCell(new Vector2(transform.position.x, transform.position.y));
 
         // Changing color of Grid Cell
-        CheckFillCell(currentPos, tag);
+        if (currentState == State.Moving)
+            CheckFillCellMove(currentPos, tag);
         //
 
-        float distance;
+        int distance;
         float minDistance = Mathf.Infinity;
         int minDistanceIndex = -1;
 
@@ -289,7 +339,7 @@ public class SquadController : MonoBehaviour
             targetTmp = new Vector2(ListOfEnemies[i].gameObject.transform.position.x, ListOfEnemies[i].gameObject.transform.position.y);
             targetPos = grid.WorldToCell(targetTmp);
 
-            distance = Vector2.Distance(new Vector2(currentPos.x, currentPos.y), new Vector2(targetPos.x, targetPos.y));
+            distance = CellDistance(transform.position, ListOfEnemies[i].gameObject.transform.position);
 
             if (distance < minDistance)
             {
@@ -300,11 +350,17 @@ public class SquadController : MonoBehaviour
         }
 
         // If enemy in EngageRange -> Initiate Battle
-        if (minDistanceIndex != -1 && minDistance <= engageRange)
+        if (minDistanceIndex != -1 && minDistance <= engageRange && !Enemies.Contains(ListOfEnemies[minDistanceIndex].gameObject))
         {
-            Enemy = ListOfEnemies[minDistanceIndex].gameObject;
-            Enemy.GetComponent<SquadController>().CallEngage(gameObject);
-            currentState = State.Engage;
+            //Enemy = ListOfEnemies[minDistanceIndex].gameObject;
+
+            CheckFillCellMove(currentCellPosition, "Engage");
+            ListOfEnemies[minDistanceIndex].gameObject.GetComponent<SquadController>().CallEngage(gameObject);
+
+            Enemies.Enqueue(ListOfEnemies[minDistanceIndex].gameObject);
+
+            if (currentState != State.Engage)
+                currentState = State.Engage;
         }
 
         // If enemy in VisionRange -> Can be attacked in DefendMode \\ In WaitingMode just watch on enemy
@@ -318,7 +374,7 @@ public class SquadController : MonoBehaviour
 
     }
 
-    private void CheckFillCell(Vector3Int NewCurrentPos, string team)
+    private void CheckFillCellMove(Vector3Int NewCurrentPos, string team)
     {
         if (NewCurrentPos != currentCellPosition)
         {
@@ -330,6 +386,17 @@ public class SquadController : MonoBehaviour
         }
         else if (team == "None")
             Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, engageRange, team);
+        else if (team == "Engage")
+            Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, engageRange, team);
+    }
+
+    private void CheckFillCell(Vector3Int Pos, string team)
+    {
+        if (Tilemap)
+        {
+            Tilemap.FillCell(Pos, engageRange, team);
+        }
+        currentCellPosition = Pos;
     }
 
     private Vector3Int GetCellInGrid(Vector2 ObjectPosition)
@@ -345,7 +412,6 @@ public class SquadController : MonoBehaviour
     {
         // Changing current state to Moving
         currentState = State.Moving;
-        Debug.Log(currentState);
 
         screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
