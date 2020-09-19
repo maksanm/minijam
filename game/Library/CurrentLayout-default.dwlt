@@ -21,7 +21,11 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
+<<<<<<< HEAD
   m_MinSize: {x: 875, y: 392}
+=======
+  m_MinSize: {x: 875, y: 542}
+>>>>>>> remotes/origin/master
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -110,12 +114,21 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
+<<<<<<< HEAD
     width: 1536
     height: 731
   m_MinSize: {x: 678, y: 342}
   m_MaxSize: {x: 12003, y: 8042}
   vertical: 0
   controlID: 64
+=======
+    width: 1522
+    height: 717
+  m_MinSize: {x: 678, y: 492}
+  m_MaxSize: {x: 14001, y: 14042}
+  vertical: 0
+  controlID: 125
+>>>>>>> remotes/origin/master
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -135,12 +148,21 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 1115
     height: 731
   m_MinSize: {x: 402, y: 342}
   m_MaxSize: {x: 8002, y: 8042}
   vertical: 1
   controlID: 114
+=======
+    width: 1213
+    height: 717
+  m_MinSize: {x: 403, y: 492}
+  m_MaxSize: {x: 10001, y: 14042}
+  vertical: 1
+  controlID: 63
+>>>>>>> remotes/origin/master
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -160,12 +182,21 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 1115
     height: 443
   m_MinSize: {x: 402, y: 221}
   m_MaxSize: {x: 8002, y: 4021}
   vertical: 0
   controlID: 115
+=======
+    width: 1213
+    height: 437
+  m_MinSize: {x: 403, y: 221}
+  m_MaxSize: {x: 8003, y: 4021}
+  vertical: 0
+  controlID: 64
+>>>>>>> remotes/origin/master
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -183,11 +214,19 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 275
     height: 443
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
+=======
+    width: 300
+    height: 437
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 13}
+>>>>>>> remotes/origin/master
   m_Panes:
   - {fileID: 14}
   m_Selected: 0
@@ -209,8 +248,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 275
     y: 0
+<<<<<<< HEAD
     width: 840
     height: 443
+=======
+    width: 913
+    height: 437
+>>>>>>> remotes/origin/master
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 15}
@@ -230,23 +274,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
+<<<<<<< HEAD
     y: 443
     width: 1115
     height: 288
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
+=======
+    y: 437
+    width: 1213
+    height: 280
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 16}
+>>>>>>> remotes/origin/master
   m_Panes:
   - {fileID: 17}
+<<<<<<< HEAD
   - {fileID: 12}
   - {fileID: 18}
   m_Selected: 2
+=======
+  m_Selected: 0
+>>>>>>> remotes/origin/master
   m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
@@ -431,10 +488,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 275.2
     y: 73.6
     width: 838
     height: 422
+=======
+    x: 307.2
+    y: 80.8
+    width: 911
+    height: 416
+>>>>>>> remotes/origin/master
   m_ViewDataDictionary: {fileID: 0}
   m_SerializedViewNames: []
   m_SerializedViewValues: []
@@ -444,7 +508,11 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
+<<<<<<< HEAD
   m_TargetSize: {x: 838, y: 401}
+=======
+  m_TargetSize: {x: 1920, y: 1080}
+>>>>>>> remotes/origin/master
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -453,16 +521,23 @@ MonoBehaviour:
   m_VSyncEnabled: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 08000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
+<<<<<<< HEAD
     m_HBaseRangeMin: -335.2
     m_HBaseRangeMax: 335.2
     m_VBaseRangeMin: -160.40001
     m_VBaseRangeMax: 160.40001
+=======
+    m_HBaseRangeMin: -768
+    m_HBaseRangeMax: 768
+    m_VBaseRangeMin: -432
+    m_VBaseRangeMax: 432
+>>>>>>> remotes/origin/master
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -480,16 +555,24 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
+<<<<<<< HEAD
       width: 838
       height: 401
     m_Scale: {x: 1.0817058, y: 1.0817058}
     m_Translation: {x: 419, y: 200.5}
+=======
+      width: 911
+      height: 395
+    m_Scale: {x: 0.45717594, y: 0.45717594}
+    m_Translation: {x: 455.5, y: 197.5}
+>>>>>>> remotes/origin/master
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
+<<<<<<< HEAD
       x: -387.35117
       y: -185.3554
       width: 774.70233
@@ -497,6 +580,15 @@ MonoBehaviour:
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 1047.5, y: 527.5}
+=======
+      x: -996.33417
+      y: -432
+      width: 1992.6683
+      height: 864
+    m_MinimalGUI: 1
+  m_defaultScale: 0.45717594
+  m_LastWindowPixelSize: {x: 1138.75, y: 520}
+>>>>>>> remotes/origin/master
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -523,17 +615,30 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 0
     y: 73.6
     width: 274
     height: 422
+=======
+    x: 7.2000003
+    y: 80.8
+    width: 299
+    height: 416
+>>>>>>> remotes/origin/master
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
+<<<<<<< HEAD
       m_SelectedIDs: 2e3a0000
       m_LastClickedID: 14894
       m_ExpandedIDs: c0faffff38fbffff58fbffff5efbffff103a0000
+=======
+      m_SelectedIDs: 5c3e0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: c6d1ffff5ed9ffff92430000
+>>>>>>> remotes/origin/master
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: Main Camera (1)
@@ -578,10 +683,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 275.2
     y: 73.6
     width: 838
     height: 422
+=======
+    x: 307.2
+    y: 80.8
+    width: 911
+    height: 416
+>>>>>>> remotes/origin/master
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: cfe321cbc548cd3438f133c1adf5c6b8
@@ -593,9 +705,15 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
+<<<<<<< HEAD
     m_Target: {x: 17.413082, y: -32.302452, z: -29.475548}
     speed: 2
     m_Value: {x: 17.413082, y: -32.302452, z: -29.475548}
+=======
+    m_Target: {x: 18.926582, y: -28.63831, z: -49.135933}
+    speed: 2
+    m_Value: {x: 18.926582, y: -28.63831, z: -49.135933}
+>>>>>>> remotes/origin/master
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -645,9 +763,15 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
+<<<<<<< HEAD
     m_Target: 10.212958
     speed: 2
     m_Value: 10.212958
+=======
+    m_Target: 10.744414
+    speed: 2
+    m_Value: 10.744414
+>>>>>>> remotes/origin/master
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -693,10 +817,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 468
-    y: 181
-    width: 973
-    height: 501
+    x: 307.2
+    y: 80.8
+    width: 911
+    height: 416
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &17
 MonoBehaviour:
@@ -719,10 +843,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 0
     y: 516
     width: 1114
     height: 267
+=======
+    x: 7.2000003
+    y: 517.60004
+    width: 1212
+    height: 259
+>>>>>>> remotes/origin/master
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -737,20 +868,35 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
+<<<<<<< HEAD
     - Assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
   - Assets
+=======
+    - Assets/Images
+  m_ViewMode: 1
+  m_StartGridSize: 64
+  m_LastFolders:
+  - Assets/Images
+>>>>>>> remotes/origin/master
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\MinigameJam\game
+  m_LastProjectPath: "D:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\minijam\\game"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
+<<<<<<< HEAD
     scrollPos: {x: 0, y: 45}
     m_SelectedIDs: 3c3c0000
     m_LastClickedID: 15420
     m_ExpandedIDs: 000000003c3c0000543c000000ca9a3b
+=======
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 60450000
+    m_LastClickedID: 17760
+    m_ExpandedIDs: 00000000424500006645000000ca9a3b
+>>>>>>> remotes/origin/master
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -778,7 +924,11 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< HEAD
     m_ExpandedIDs: 000000003c3c0000
+=======
+    m_ExpandedIDs: 0000000042450000
+>>>>>>> remotes/origin/master
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -803,10 +953,17 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
+<<<<<<< HEAD
     m_SelectedInstanceIDs: 2e3a0000
     m_LastClickedInstanceID: 14894
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300001451000010510000
+=======
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: c6230000
+>>>>>>> remotes/origin/master
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -855,10 +1012,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 0
     y: 516
     width: 1114
     height: 267
+=======
+    x: 7.2000003
+    y: 517.60004
+    width: 1212
+    height: 259
+>>>>>>> remotes/origin/master
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &19
 MonoBehaviour:
@@ -897,4 +1061,8 @@ MonoBehaviour:
     m_PrefName: Preview_InspectorPreview
   m_PreviewWindow: {fileID: 0}
   m_LastInspectedObjectInstanceID: -1
+<<<<<<< HEAD
   m_LastVerticalScrollValue: 55
+=======
+  m_LastVerticalScrollValue: 0
+>>>>>>> remotes/origin/master
