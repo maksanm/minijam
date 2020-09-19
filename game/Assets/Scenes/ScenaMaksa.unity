@@ -1104,7 +1104,7 @@ PrefabInstance:
     - target: {fileID: 2221452784648932490, guid: eeb8db03eed6538428ee4f8ab8ac6b97,
         type: 3}
       propertyPath: minScale
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2221452784648932493, guid: eeb8db03eed6538428ee4f8ab8ac6b97,
         type: 3}
