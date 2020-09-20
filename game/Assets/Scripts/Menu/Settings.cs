@@ -21,7 +21,6 @@ public class Settings : MonoBehaviour
     public void AudioVolume()
     {
         sliderValue = GameObject.Find("Slider").GetComponent<Slider>().value;
-        Debug.Log(sliderValue);
         am.SetFloat("masterVolume", sliderValue);
     }
 }
