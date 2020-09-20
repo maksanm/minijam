@@ -101,11 +101,11 @@ MonoBehaviour:
   controlByMouse: 0
   damage: 100
   lifetimeProjectile: 0.8
-  attackCooldown: 0.8
+  attackCooldown: 0.75
   stepCooldown: 0
   visionRange: 2
   engageRange: 1
-  speed: 40
+  speed: 100
   nextWaypointDistance: 0.5
   launchForce: 10
   hitParticleSystem: {fileID: 5939729281946448494, guid: 302d77cecc9c5b045936f6ce3080b12a,
