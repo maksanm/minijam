@@ -126,7 +126,7 @@ public class CommandLine : MonoBehaviour
 
             childHeader.GetComponent<Text>().text = "Status";
             childImage.GetComponent<Image>().sprite = Question;
-            childLogs.GetComponent<Text>().text = "ArtifactDB station HP: " + station.currentHealth.ToString();
+            childLogs.GetComponent<Text>().text = "Artifact station HP: " + station.currentHealth.ToString();
         }
         else if (CommandData.Length == 2)
         {

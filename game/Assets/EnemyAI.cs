@@ -14,7 +14,7 @@ public class EnemyAI : MonoBehaviour
     private StationContoller stationContoller; 
 
     public float cooldownSpawnTime = 1f;
-
+    int spawnNumber = 0;
     private bool isCooldown;
 
 
@@ -53,6 +53,8 @@ public class EnemyAI : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(cooldownTime);
         isCooldown = false;
+        if (cooldownSpawnTime > 3)
+            cooldownSpawnTime -= 0.05f;
     }
 
     // Update is called once per frame
