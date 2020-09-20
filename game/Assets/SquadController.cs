@@ -58,6 +58,10 @@ public class SquadController : MonoBehaviour
     private TilemapUI Tilemap;
 
     private State currentState;
+
+    AudioSource shotAudio;
+    AudioSource boomAudio;
+
     public enum State
     {
         Waiting,
@@ -92,6 +96,10 @@ public class SquadController : MonoBehaviour
             ButtonTmp = 0;
 
         gameObject.layer = LayerMask.NameToLayer("Obstacle");
+
+        AudioSource[] audio = GetComponents<AudioSource>();
+        shotAudio = audio[0];
+        boomAudio = audio[1];
     }
 
     void OnPathComplete(Path p)
@@ -342,6 +350,7 @@ public class SquadController : MonoBehaviour
             BeamProjectile beam = launchedProjectile.GetComponent<BeamProjectile>();
             if (beam)
             {
+                shotAudio.Play();
                 beam.team = tag;
                 beam.damage = damage;
                 beam.lifetime = lifetimeProjectile;
@@ -372,6 +381,7 @@ public class SquadController : MonoBehaviour
 
     private void Die()
     {
+        boomAudio.Play();
         CheckFillCellMove(currentCellPosition, "None");
         DestroyImmediate(gameObject);
     }

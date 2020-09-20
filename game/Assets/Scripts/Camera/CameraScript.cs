@@ -10,6 +10,7 @@ public class CameraScript : MonoBehaviour {
         private float mw;
         public float startScale = 6;
         public float scaleSpeed = 1f;
+        public bool spaceEnabled = false;
         float height;
  		float width;
         Camera cam;
@@ -25,7 +26,7 @@ public class CameraScript : MonoBehaviour {
             height = 2f * cam.orthographicSize;
             width = height * cam.aspect;
             mw = Input.GetAxis("Mouse ScrollWheel");
-        	if(Input.GetKeyDown(KeyCode.Space))
+        	if(Input.GetKeyDown(KeyCode.Space) && spaceEnabled)
         	{
         		transform.position = startPos;
         	}
