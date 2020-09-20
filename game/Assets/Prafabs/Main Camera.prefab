@@ -104,6 +104,7 @@ MonoBehaviour:
   minScale: 3
   startScale: 6
   scaleSpeed: 1
+  spaceEnabled: 0
 --- !u!1 &2221452784649018998
 GameObject:
   m_ObjectHideFlags: 0
