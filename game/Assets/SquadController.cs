@@ -470,7 +470,7 @@ public class SquadController : MonoBehaviour
         else if (team == "None")
             Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, engageRange, team);
         else if (team == "Engage")
-            Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, engageRange, team);
+            Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, 0, team);
     }
 
     private void CheckFillCell(Vector3Int Pos, string team)
