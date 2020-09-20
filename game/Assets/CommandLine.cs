@@ -9,10 +9,13 @@ public class CommandLine : MonoBehaviour
 
     private SectorsArray sectors;
 
-    private List<string> BuiltInCommands = new List<string>{"help", "move", "defend", "hide"};
-    private Stack<string> History = new Stack<string>();
+    private List<string> BuiltInCommands = new List<string>{"help", "move", "defend", "status"};
 
-    private Stack<string> Buffor = new Stack<string>();
+    private GameObject childHeader;
+    private GameObject childError;
+    private GameObject childOk;
+    private GameObject childLogs;
+
 
     private string[] CommandData;
     private string Command;
@@ -28,28 +31,21 @@ public class CommandLine : MonoBehaviour
         input.onEndEdit = se;
 
         input.ActivateInputField();
-        Debug.Log(input.runInEditMode);
 
         sectors = FindObjectOfType<SectorsArray>();
+
+        childHeader = input.transform.GetChild(3).gameObject;
+        childError = input.transform.GetChild(4).gameObject;
+        childOk = input.transform.GetChild(5).gameObject;
+        childLogs = input.transform.GetChild(6).gameObject;
+
+        childError.GetComponent<Image>().enabled = false;
+        childOk.GetComponent<Image>().enabled = false;
     }
 
     private void Update()
     {
-        // UNDO
-        //if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && History.Count!=0)
-        //{
-        //    Debug.Log("Undo");
-        //    Buffor.Push(History.Pop());
-        //}
-        //else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && Buffor.Count!=0)
-        //{
-        //    Debug.Log("ReUndo");
-        //    History.Push(Buffor.Pop());
-        //}
-        //else
-        //{
-        //    Buffor.Clear();
-        //}
+
     }
 
 
@@ -59,6 +55,8 @@ public class CommandLine : MonoBehaviour
     }
     private void Move()
     {
+        bool ok = false;
+
         SquadController[] allSquads = FindObjectsOfType<SquadController>();
         Vector2 moveDestination = sectors.ConvertArgumentToCoords(destination);
 
@@ -74,9 +72,22 @@ public class CommandLine : MonoBehaviour
 
                 if ((destinationCoordinates.x == shipCenterCoordinates.x) && (destinationCoordinates.y == shipCenterCoordinates.y))
                 {
-                    allSquads[j].GetCommand(shipCenterCoordinates, moveDestination, Command);
+                    ok = true;
+                    allSquads[j].GetCommand(moveDestination, Command);
                 }
             }
+        }
+        if (ok)
+        {
+            childHeader.GetComponent<Text>().text = "Success";
+            childError.GetComponent<Image>().enabled = false;
+            childOk.GetComponent<Image>().enabled = true;
+        }
+        else
+        {
+            childHeader.GetComponent<Text>().text = "Failed";
+            childError.GetComponent<Image>().enabled = true;
+            childOk.GetComponent<Image>().enabled = false;
         }
     }
     private void Defend()
@@ -101,9 +112,9 @@ public class CommandLine : MonoBehaviour
         CommandData = input.text.Split(' ');
 
         Command = CommandData[0];
-        destination = CommandData[CommandData.Length-1];
+        if (Command != "status")
+            destination = CommandData[CommandData.Length-1];
 
-        History.Push(input.text);
         Debug.Log(input.text);
 
         if (BuiltInCommands.Contains(Command) && sectors)
@@ -115,19 +126,25 @@ public class CommandLine : MonoBehaviour
                 Move();
             else if (Command == "defend" && CommandData.Length >= 1)
                 Defend();
-            else if (Command == "hide" && CommandData.Length >= 1)
+            else if (Command == "status" && CommandData.Length >= 0)
                 Hide();
             else
             {
-                //Debug.Log("Error");
+                childHeader.GetComponent<Text>().text = "Failed";
+                childError.GetComponent<Image>().enabled = true;
+                childOk.GetComponent<Image>().enabled = false;
             }
         }
         else
         {
-            //Debug.Log("Error");
+            childHeader.GetComponent<Text>().text = "Failed";
+            childError.GetComponent<Image>().enabled = true;
+            childOk.GetComponent<Image>().enabled = false;
         }
 
+        childLogs.GetComponent<Text>().text = arg0;
 
+        input.ActivateInputField();
         input.text = "";
     }
 }
