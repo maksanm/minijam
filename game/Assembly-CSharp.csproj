@@ -68,8 +68,10 @@
     <Compile Include="Assets\Scripts\Camera\CameraScript.cs" />
     <Compile Include="Assets\Scripts\Camera\StripMove120.cs" />
     <Compile Include="Assets\Scripts\Camera\StripMoveAT.cs" />
+    <Compile Include="Assets\Scripts\SectorsArray.cs" />
     <Compile Include="Assets\ShipController.cs" />
     <Compile Include="Assets\SquadController.cs" />
+    <Compile Include="Assets\StationContoller.cs" />
     <Compile Include="Assets\TilemapUI.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Unity/2019.4.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

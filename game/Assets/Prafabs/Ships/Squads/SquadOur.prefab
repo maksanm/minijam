@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7811908899023066288}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 8.07, y: -27.42, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 8487538908035998395}
   - {fileID: 7119569046173915082}
@@ -99,13 +99,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7cecab7e812ac498f82a0dfd6d042a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlByMouse: 0
   damage: 20
   lifetimeProjectile: 1
   attackCooldown: 0.3
   stepCooldown: 0
   visionRange: 1
   engageRange: 0
-  speed: 400
+  speed: 150
   nextWaypointDistance: 0.5
   launchForce: 5
   hitParticleSystem: {fileID: 5939729281946448494, guid: f951ecba3ad9edd4093d051835a640c5,

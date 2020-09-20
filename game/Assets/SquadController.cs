@@ -5,6 +5,9 @@ using Pathfinding;
 
 public class SquadController : MonoBehaviour
 {
+    [Header("Dev")]
+    public bool controlByMouse;
+
     [Header("Combat")]
     public float damage;
     public float lifetimeProjectile;
@@ -131,9 +134,15 @@ public class SquadController : MonoBehaviour
 
     private void UpdateWaitingState()
     {
-        if (Input.GetMouseButtonDown(ButtonTmp))
+        if (Input.GetMouseButtonDown(ButtonTmp) && controlByMouse)
         {
-            StartMove();
+            screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+            Vector3Int position = GetCellInGrid(screenPosition);
+
+            // Converting to WorldCoordinates
+            target = new Vector2(grid.CellToWorld(position).x + 1.65f, grid.CellToWorld(position).y + 1.65f);
+            StartMove(target);
         }
         else if (transform.childCount == 0)
         {
@@ -141,11 +150,7 @@ public class SquadController : MonoBehaviour
         }
         else
         {
-
             CheckEnemies();
-
-            //if (!isKretin)
-            //    StartCoroutine(Kretin());
         }
     }
     private void UpdateDefendState()
@@ -153,9 +158,15 @@ public class SquadController : MonoBehaviour
     }
     private void UpdateMovingState()
     {
-        if (Input.GetMouseButtonDown(ButtonTmp))
+        if (Input.GetMouseButtonDown(ButtonTmp) && controlByMouse)
         {
-            StartMove();
+            screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+            Vector3Int position = GetCellInGrid(screenPosition);
+
+            // Converting to WorldCoordinates
+            target = new Vector2(grid.CellToWorld(position).x + 1.65f, grid.CellToWorld(position).y + 1.65f);
+            StartMove(target);
         }
         else
         {
@@ -189,7 +200,6 @@ public class SquadController : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(0, 0, Rotation * Mathf.Rad2Deg);
 
-
             rb.AddForce(force);
 
             float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
@@ -214,8 +224,10 @@ public class SquadController : MonoBehaviour
             Enemy = Enemies.Dequeue();
         }
 
-        if (Enemies.Count != 0 && Enemy)
+
+        if (Enemies.Count != 0 && Enemy || Enemies.Count == 0 && Enemy)
             distance = CellDistance(transform.position, Enemy.transform.position);
+            
 
         if (Enemy && distance <= engageRange && transform.childCount != 0)
         {
@@ -263,12 +275,25 @@ public class SquadController : MonoBehaviour
             SetAnim(1);
 
             gameObject.layer = LayerMask.NameToLayer("Default");
-            Debug.Log(transform.position + " " + targetV2);
+
             seeker.StartPath(transform.position, targetV2, OnPathComplete);
             gameObject.layer = LayerMask.NameToLayer("Obstacle");
 
             CheckFillCell(currentCellPosition, tag);
         }
+    }
+
+    private void StartMove(Vector2 target)
+    {
+        // Changing current state to Moving
+        collider2d.isTrigger = true;
+        currentState = State.Moving;
+
+        SetAnim(1);
+
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        seeker.StartPath(transform.position, target, OnPathComplete);
+        gameObject.layer = LayerMask.NameToLayer("Obstacle");
     }
 
     private int CellDistance(Vector3 Origin, Vector3 Target)
@@ -332,8 +357,17 @@ public class SquadController : MonoBehaviour
     public void CallEngage(GameObject enemy)
     {
         CheckFillCellMove(currentCellPosition, "Engage");
+        collider2d.isTrigger = false;
         currentState = State.Engage;
         Enemies.Enqueue(enemy);
+    }
+
+    public void GetCommand(Vector2 origin, Vector2 target, string command)
+    {
+        if (command == "move")
+        {
+            StartMove(target);
+        }
     }
 
     private void Die()
@@ -389,7 +423,11 @@ public class SquadController : MonoBehaviour
             Enemies.Enqueue(ListOfEnemies[minDistanceIndex].gameObject);
 
             if (currentState != State.Engage)
+            {
+                collider2d.isTrigger = false;
                 currentState = State.Engage;
+            }
+                
         }
 
         // If enemy in VisionRange -> Can be attacked in DefendMode \\ In WaitingMode just watch on enemy
@@ -426,7 +464,7 @@ public class SquadController : MonoBehaviour
             if (team == "None")
             {
                 Tilemap.FillCell(Pos, engageRange, team);
-                Tilemap.FillCell(Pos, 0, tag);
+                //Tilemap.FillCell(Pos, 0, tag);
             }
             else
                 Tilemap.FillCell(Pos, 0, team);
@@ -441,27 +479,6 @@ public class SquadController : MonoBehaviour
         Vector3Int position = grid.WorldToCell(worldPoint);
 
         return position;
-    }
-
-    private void StartMove()
-    {
-        // Changing current state to Moving
-        collider2d.isTrigger = true;
-        currentState = State.Moving;
-
-        screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-
-        Vector3Int position = GetCellInGrid(screenPosition);
-
-        // Converting to WorldCoordinates
-        target = new Vector2(grid.CellToWorld(position).x + 1.65f, grid.CellToWorld(position).y + 1.65f);
-
-        SetAnim(1);
-
-        gameObject.layer = LayerMask.NameToLayer("Default");
-        seeker.StartPath(transform.position, target, OnPathComplete);
-        gameObject.layer = LayerMask.NameToLayer("Obstacle");
     }
 
 

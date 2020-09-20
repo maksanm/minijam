@@ -7,6 +7,8 @@ public class CommandLine : MonoBehaviour
 {
     private InputField input;
 
+    private SectorsArray sectors;
+
     private List<string> BuiltInCommands = new List<string>{"help", "move", "defend", "hide"};
     private Stack<string> History = new Stack<string>();
 
@@ -27,6 +29,8 @@ public class CommandLine : MonoBehaviour
 
         input.ActivateInputField();
         Debug.Log(input.runInEditMode);
+
+        sectors = FindObjectOfType<SectorsArray>();
     }
 
     private void Update()
@@ -48,15 +52,31 @@ public class CommandLine : MonoBehaviour
         //}
     }
 
+
     private void Help()
     {
         Debug.Log("Help");
     }
     private void Move()
     {
+        SquadController[] allSquads = FindObjectsOfType<SquadController>();
+        Vector2 moveDestination = sectors.ConvertArgumentToCoords(destination);
+
         for (int i = 1; i < CommandData.Length - 1; i++)
         {
+            Vector2 destinationCoordinates = sectors.ConvertArgumentToCoords(CommandData[i]);
 
+            for (int j = 0; j < allSquads.Length; j++)
+            {
+                if (allSquads[j].tag != "Allies")
+                    continue;
+                Vector2 shipCenterCoordinates = sectors.ConvertPositionToCenterCell(allSquads[j].gameObject.transform.position);
+
+                if ((destinationCoordinates.x == shipCenterCoordinates.x) && (destinationCoordinates.y == shipCenterCoordinates.y))
+                {
+                    allSquads[j].GetCommand(shipCenterCoordinates, moveDestination, Command);
+                }
+            }
         }
     }
     private void Defend()
@@ -81,12 +101,10 @@ public class CommandLine : MonoBehaviour
         Command = CommandData[0];
         destination = CommandData[CommandData.Length-1];
 
-        //Debug.Log(Command + " " + destination);
-
         History.Push(input.text);
-        //Debug.Log(History);
+        Debug.Log(input.text);
 
-        if (BuiltInCommands.Contains(Command))
+        if (BuiltInCommands.Contains(Command) && sectors)
         {
 
             if (Command == "help" && CommandData.Length == 1)
@@ -109,10 +127,5 @@ public class CommandLine : MonoBehaviour
 
 
         input.text = "";
-        Debug.Log(input.runInEditMode);
-
-        //Debug.Log(arg0);
-
-        //input.ActivateInputField();
     }
 }

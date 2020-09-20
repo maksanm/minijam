@@ -202,11 +202,11 @@ public class TilemapUI : MonoBehaviour
         if (Input.GetMouseButton(2))
         {
             Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+
             Vector3Int clickCellPosition = map.WorldToCell(clickWorldPosition);
 
-            Debug.Log(clickCellPosition);
-            
-            map.SetTile(clickCellPosition, TileToSetBlue);
+            Debug.Log(map.CellToWorld(clickCellPosition));
         }
     }
 }
