@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StationContoller : MonoBehaviour
 {
@@ -72,11 +73,16 @@ public class StationContoller : MonoBehaviour
 
         // & Destroy
         Destroy(gameObject, 4f);
+        Invoke("Death", 2f);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    public void Death()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 }

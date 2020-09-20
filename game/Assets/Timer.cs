@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class Timer : MonoBehaviour
 {
 
@@ -12,7 +13,9 @@ public class Timer : MonoBehaviour
     private int secondTwice = 0;
 
     private Text timer;
-
+    public bool mainScene = true;
+    public static string time;
+    bool firstOne = true;
     private bool isPaused;
 
     // Start is called before the first frame update
@@ -48,7 +51,6 @@ public class Timer : MonoBehaviour
         }
 
         timer.text = buildString();
-
         isPaused = false;
     }
 
@@ -72,7 +74,15 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
-        if (!isPaused)
+        if (!isPaused && mainScene)
+        {
             StartCoroutine(TimerCountDown());
+            time = timer.text;
+        }
+        else if(firstOne)
+        {
+            timer.text = time;
+            firstOne = !firstOne;
+        }
     }
 }

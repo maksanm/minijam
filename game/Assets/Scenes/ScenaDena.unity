@@ -185,7 +185,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &243969984
 GameObject:
@@ -277,6 +277,11 @@ PrefabInstance:
         type: 3}
       propertyPath: speed
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2221452784648932490, guid: eeb8db03eed6538428ee4f8ab8ac6b97,
+        type: 3}
+      propertyPath: maxScale
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2221452784648932493, guid: eeb8db03eed6538428ee4f8ab8ac6b97,
         type: 3}
@@ -404,7 +409,7 @@ Transform:
   - {fileID: 845046516}
   - {fileID: 545886330}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &545886329
 GameObject:
@@ -585,12 +590,12 @@ PrefabInstance:
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.61
+      value: 8.21
       objectReference: {fileID: 0}
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -27.48
+      value: -30.85
       objectReference: {fileID: 0}
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
@@ -620,7 +625,7 @@ PrefabInstance:
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
@@ -642,6 +647,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquadEsminec (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4619918677032840383, guid: 777c7f776585685498fc3c1896017ed2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 777c7f776585685498fc3c1896017ed2, type: 3}
 --- !u!1001 &800590628
@@ -654,12 +664,12 @@ PrefabInstance:
     - target: {fileID: 523405879370190038, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.69
+      value: 20.99
       objectReference: {fileID: 0}
     - target: {fileID: 523405879370190038, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -31.2
+      value: -27.89
       objectReference: {fileID: 0}
     - target: {fileID: 523405879370190038, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
         type: 3}
@@ -710,6 +720,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SquadOur (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7811908899023066288, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 555be1e6ae9b46f43ae74dceaad7ab75, type: 3}
@@ -1291,6 +1306,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquadOur (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7811908899023066288, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 555be1e6ae9b46f43ae74dceaad7ab75, type: 3}
 --- !u!1001 &1069615538
@@ -1303,12 +1323,12 @@ PrefabInstance:
     - target: {fileID: 523405879370190038, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.51
+      value: 8.27
       objectReference: {fileID: 0}
     - target: {fileID: 523405879370190038, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -30.91
+      value: -27.3
       objectReference: {fileID: 0}
     - target: {fileID: 523405879370190038, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
         type: 3}
@@ -1360,6 +1380,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquadOur (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7811908899023066288, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 555be1e6ae9b46f43ae74dceaad7ab75, type: 3}
 --- !u!1001 &1231834851
@@ -1387,12 +1412,12 @@ PrefabInstance:
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.62
+      value: 20.86
       objectReference: {fileID: 0}
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -27.73
+      value: -30.8
       objectReference: {fileID: 0}
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
@@ -1422,7 +1447,7 @@ PrefabInstance:
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
@@ -1443,6 +1468,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SquadEsminec (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619918677032840383, guid: 777c7f776585685498fc3c1896017ed2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 777c7f776585685498fc3c1896017ed2, type: 3}
@@ -14017,7 +14047,7 @@ PrefabInstance:
     - target: {fileID: 3114173798248723673, guid: 90537ec37100a0e4bb26f8c55497cc02,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3114173798248723673, guid: 90537ec37100a0e4bb26f8c55497cc02,
         type: 3}
@@ -14038,6 +14068,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SquadLinkor
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619918677032840383, guid: 90537ec37100a0e4bb26f8c55497cc02,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90537ec37100a0e4bb26f8c55497cc02, type: 3}
@@ -14101,7 +14136,7 @@ PrefabInstance:
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3114173798248723673, guid: 777c7f776585685498fc3c1896017ed2,
         type: 3}
@@ -14122,6 +14157,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SquadEsminec (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619918677032840383, guid: 777c7f776585685498fc3c1896017ed2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 777c7f776585685498fc3c1896017ed2, type: 3}
@@ -14192,6 +14232,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquadOur (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7811908899023066288, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 555be1e6ae9b46f43ae74dceaad7ab75, type: 3}
 --- !u!1001 &2024885909
@@ -14261,6 +14306,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquadOur (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7811908899023066288, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 555be1e6ae9b46f43ae74dceaad7ab75, type: 3}
 --- !u!1001 &2100374797
@@ -14308,7 +14358,7 @@ PrefabInstance:
     - target: {fileID: 523405879370190038, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 523405879370190038, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
         type: 3}
@@ -14329,6 +14379,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SquadOur
+      objectReference: {fileID: 0}
+    - target: {fileID: 7811908899023066288, guid: 555be1e6ae9b46f43ae74dceaad7ab75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 555be1e6ae9b46f43ae74dceaad7ab75, type: 3}
@@ -14377,7 +14432,7 @@ PrefabInstance:
     - target: {fileID: 5294033596597547682, guid: 7097ba64deb005e419176be71ea58607,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5294033596597547682, guid: 7097ba64deb005e419176be71ea58607,
         type: 3}
@@ -14412,6 +14467,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyAI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5308351417051521920, guid: e2611791d0526f64698a021f32df21bf,
+        type: 3}
+      propertyPath: cooldownSpawnTime
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5308351417051521921, guid: e2611791d0526f64698a021f32df21bf,
         type: 3}
@@ -14451,7 +14511,7 @@ PrefabInstance:
     - target: {fileID: 5308351417051521921, guid: e2611791d0526f64698a021f32df21bf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5308351417051521921, guid: e2611791d0526f64698a021f32df21bf,
         type: 3}
@@ -14515,7 +14575,7 @@ PrefabInstance:
     - target: {fileID: 8173190614567375073, guid: c40c5340230b9f141948e9f2fefe1ff5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8173190614567375073, guid: c40c5340230b9f141948e9f2fefe1ff5,
         type: 3}
@@ -14596,6 +14656,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8960434979384450761, guid: 5bb0c21d981a33e47b790d040d9356de,
+        type: 3}
+      propertyPath: maxHealth
+      value: 5000
+      objectReference: {fileID: 0}
     - target: {fileID: 8960434979384450804, guid: 5bb0c21d981a33e47b790d040d9356de,
         type: 3}
       propertyPath: m_Name
@@ -14639,7 +14704,7 @@ PrefabInstance:
     - target: {fileID: 8960434979384450806, guid: 5bb0c21d981a33e47b790d040d9356de,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8960434979384450806, guid: 5bb0c21d981a33e47b790d040d9356de,
         type: 3}
