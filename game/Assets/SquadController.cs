@@ -281,7 +281,9 @@ public class SquadController : MonoBehaviour
 
 
             // After fight fly to the center of cell
-            CheckFillCell(currentCellPosition, "None");
+            if (currentCellPosition != grid.WorldToCell(transform.position))
+                CheckFillCell(currentCellPosition, "None");
+
             currentState = State.Moving;
 
             currentCellPosition = grid.WorldToCell(transform.position);
@@ -358,7 +360,7 @@ public class SquadController : MonoBehaviour
     // GameObject need to get Enemy (transform and etc.)
     public void CallEngage(GameObject enemy)
     {
-        CheckFillCellMove(currentCellPosition, "Engage");
+        //CheckFillCellMove(currentCellPosition, "Engage");
         collider2d.isTrigger = false;
         currentState = State.Engage;
         Enemies.Enqueue(enemy);
@@ -426,7 +428,7 @@ public class SquadController : MonoBehaviour
             distance = CellDistance(transform.position, FindObjectOfType<StationContoller>().transform.position);
             if ((distance < minDistance || minDistance == -1) && distance <= engageRange)
             {
-                CheckFillCellMove(currentCellPosition, "Engage");
+                //CheckFillCellMove(currentCellPosition, "Engage");
                 Enemies.Enqueue(FindObjectOfType<StationContoller>().gameObject);
                 if (currentState != State.Engage)
                 {
@@ -441,7 +443,7 @@ public class SquadController : MonoBehaviour
         {
             //Enemy = ListOfEnemies[minDistanceIndex].gameObject;
 
-            CheckFillCellMove(currentCellPosition, "Engage");
+            //CheckFillCellMove(currentCellPosition, "Engage");
             ListOfEnemies[minDistanceIndex].gameObject.GetComponent<SquadController>().CallEngage(gameObject);
 
             Enemies.Enqueue(ListOfEnemies[minDistanceIndex].gameObject);

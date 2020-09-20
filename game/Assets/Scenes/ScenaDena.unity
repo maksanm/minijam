@@ -14413,6 +14413,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyAI
       objectReference: {fileID: 0}
+    - target: {fileID: 5308351417051521920, guid: e2611791d0526f64698a021f32df21bf,
+        type: 3}
+      propertyPath: cooldownSpawnTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5308351417051521921, guid: e2611791d0526f64698a021f32df21bf,
         type: 3}
       propertyPath: m_LocalPosition.x
