@@ -9,7 +9,7 @@ public class StationContoller : MonoBehaviour
 
     private Animator animator;
 
-    private float currentHealth;
+    public float currentHealth;
 
     private bool isDead;
 
@@ -17,6 +17,7 @@ public class StationContoller : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        animator = GetComponent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
