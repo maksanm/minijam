@@ -58,7 +58,7 @@ public class CommandLine : MonoBehaviour
         childHeader.GetComponent<Text>().text = "Help";
         childImage.GetComponent<Image>().sprite = Question;
 
-        childLogs.GetComponent<Text>().text = "move, status, defend";
+        childLogs.GetComponent<Text>().text = "move, status";
 
     }
     private void Move()
