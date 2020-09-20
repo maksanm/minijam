@@ -33,24 +33,24 @@ public class StationContoller : MonoBehaviour
                 }
             }
         }
-        if (collider.tag == "Enemy" && collider)
+        if (collider.tag == "Enemy")
         {
             SquadController enemy = collider.gameObject.GetComponent<SquadController>();
-            Debug.Log(enemy);
-            Debug.Log(gameObject);
-            enemy.CallEngage(gameObject);
+            if (enemy)
+            {
+                enemy.CallEngage(gameObject);
+            }
+                
         }
     }
 
     private void TakeDamage(float damage)
     {
         currentHealth -= damage;
-
-        GameObject ParticleSystem = GetComponentInParent<SquadController>().hitParticleSystem;
-
-        if (ParticleSystem)
+       
+        if (HitParticle)
         {
-            GameObject ParticleSystemInst = Instantiate(ParticleSystem, transform.position, Quaternion.identity);
+            GameObject ParticleSystemInst = Instantiate(HitParticle, transform.position, Quaternion.identity);
         }
 
         if (currentHealth <= 0)

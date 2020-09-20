@@ -227,7 +227,8 @@ public class SquadController : MonoBehaviour
 
         if (Enemies.Count != 0 && Enemy || Enemies.Count == 0 && Enemy)
             distance = CellDistance(transform.position, Enemy.transform.position);
-            
+
+        Debug.Log(distance);
 
         if (Enemy && distance <= engageRange && transform.childCount != 0)
         {
@@ -235,7 +236,6 @@ public class SquadController : MonoBehaviour
                                    Enemy.transform.position.x - transform.position.x);
 
             transform.rotation = Quaternion.Euler(0, 0, Rotation * Mathf.Rad2Deg);
-
 
             if (damageProjectile)
             { 
@@ -394,6 +394,7 @@ public class SquadController : MonoBehaviour
         int minDistanceIndex = -1;
 
         ListOfEnemies = FindObjectsOfType<SquadController>();
+       
         for (int i = 0; i < ListOfEnemies.Length; i++)
         {
             if (ListOfEnemies[i].tag == tag)
@@ -410,6 +411,21 @@ public class SquadController : MonoBehaviour
                 minDistanceIndex = i;
             }
             
+        }
+
+        if (tag == "Enemy" && !Enemies.Contains(FindObjectOfType<StationContoller>().gameObject))
+        {
+            distance = CellDistance(transform.position, FindObjectOfType<StationContoller>().transform.position);
+            if (distance < minDistance || minDistance == -1)
+            {
+                CheckFillCellMove(currentCellPosition, "Engage");
+                Enemies.Enqueue(FindObjectOfType<StationContoller>().gameObject);
+                if (currentState != State.Engage)
+                {
+                    collider2d.isTrigger = false;
+                    currentState = State.Engage;
+                }
+            }
         }
 
         // If enemy in EngageRange -> Initiate Battle
