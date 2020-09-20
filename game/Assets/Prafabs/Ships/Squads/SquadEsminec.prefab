@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlByMouse: 0
   damage: 100
-  lifetimeProjectile: 0.5
+  lifetimeProjectile: 0.8
   attackCooldown: 0.8
   stepCooldown: 0
   visionRange: 2

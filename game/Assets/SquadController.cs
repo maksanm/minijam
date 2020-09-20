@@ -50,6 +50,8 @@ public class SquadController : MonoBehaviour
     private bool isCooldown;
     private bool isKretin;
 
+    private bool isAwaked;
+
     private GameObject Enemy;
     private Queue<GameObject> Enemies = new Queue<GameObject>();
 
@@ -72,9 +74,9 @@ public class SquadController : MonoBehaviour
 
     private int ButtonTmp;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+
         currentState = State.Waiting;
 
         seeker = GetComponent<Seeker>();
@@ -94,8 +96,6 @@ public class SquadController : MonoBehaviour
             ButtonTmp = 1;
         else
             ButtonTmp = 0;
-
-        gameObject.layer = LayerMask.NameToLayer("Obstacle");
 
         AudioSource[] audio = GetComponents<AudioSource>();
         shotAudio = audio[0];
@@ -163,6 +163,16 @@ public class SquadController : MonoBehaviour
     }
     private void UpdateDefendState()
     {
+    }
+    private void StartMove(Vector2 target)
+    {
+        // Changing current state to Moving
+        collider2d.isTrigger = true;
+        currentState = State.Moving;
+
+        SetAnim(1);
+
+        seeker.StartPath(transform.position, target, OnPathComplete);
     }
     private void UpdateMovingState()
     {
@@ -280,27 +290,12 @@ public class SquadController : MonoBehaviour
 
             SetAnim(1);
 
-            gameObject.layer = LayerMask.NameToLayer("Default");
-
             seeker.StartPath(transform.position, targetV2, OnPathComplete);
-            gameObject.layer = LayerMask.NameToLayer("Obstacle");
 
             CheckFillCell(currentCellPosition, tag);
         }
     }
 
-    private void StartMove(Vector2 target)
-    {
-        // Changing current state to Moving
-        collider2d.isTrigger = true;
-        currentState = State.Moving;
-
-        SetAnim(1);
-
-        gameObject.layer = LayerMask.NameToLayer("Default");
-        seeker.StartPath(transform.position, target, OnPathComplete);
-        gameObject.layer = LayerMask.NameToLayer("Obstacle");
-    }
 
     private int CellDistance(Vector3 Origin, Vector3 Target)
     {
@@ -369,7 +364,7 @@ public class SquadController : MonoBehaviour
         Enemies.Enqueue(enemy);
     }
 
-    public void GetCommand(Vector2 origin, Vector2 target, string command)
+    public void GetCommand(Vector2 target, string command)
     {
         if (command == "move")
         {
@@ -384,6 +379,7 @@ public class SquadController : MonoBehaviour
 
     private void Die()
     {
+        boomAudio.Play();
         CheckFillCellMove(currentCellPosition, "None");
         DestroyImmediate(gameObject);
     }
@@ -428,7 +424,7 @@ public class SquadController : MonoBehaviour
         if (tag == "Enemy" && !Enemies.Contains(FindObjectOfType<StationContoller>().gameObject))
         {
             distance = CellDistance(transform.position, FindObjectOfType<StationContoller>().transform.position);
-            if (distance < minDistance || minDistance == -1)
+            if ((distance < minDistance || minDistance == -1) && distance <= engageRange)
             {
                 CheckFillCellMove(currentCellPosition, "Engage");
                 Enemies.Enqueue(FindObjectOfType<StationContoller>().gameObject);
