@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CommandLine : MonoBehaviour
 {
+    static readonly Regex trimmer = new Regex(@"\s\s+");
+
+
     private InputField input;
 
     private SectorsArray sectors;
@@ -66,25 +70,34 @@ public class CommandLine : MonoBehaviour
         bool ok = false;
 
         SquadController[] allSquads = FindObjectsOfType<SquadController>();
-        Vector2 moveDestination = sectors.ConvertArgumentToCoords(destination);
-
-        for (int i = 1; i < CommandData.Length - 1; i++)
+        Vector2 moveDestination = new Vector2(0, 0);
+        if (sectors.CheckArgument(destination))
         {
-            Vector2 destinationCoordinates = sectors.ConvertArgumentToCoords(CommandData[i]);
-
-            for (int j = 0; j < allSquads.Length; j++)
+            moveDestination = sectors.ConvertArgumentToCoords(destination);
+            for (int i = 1; i < CommandData.Length - 1; i++)
             {
-                if (allSquads[j].tag != "Allies")
-                    continue;
-                Vector2 shipCenterCoordinates = sectors.ConvertPositionToCenterCell(allSquads[j].gameObject.transform.position);
-
-                if ((destinationCoordinates.x == shipCenterCoordinates.x) && (destinationCoordinates.y == shipCenterCoordinates.y))
+                Vector2 destinationCoordinates = new Vector2(0, 0);
+                if (sectors.CheckArgument(CommandData[i]))
                 {
-                    ok = true;
-                    allSquads[j].GetCommand(moveDestination, Command);
+                    destinationCoordinates = sectors.ConvertArgumentToCoords(CommandData[i]);
+                    for (int j = 0; j < allSquads.Length; j++)
+                    {
+                        if (allSquads[j].tag != "Allies")
+                            continue;
+                        Vector2 shipCenterCoordinates = sectors.ConvertPositionToCenterCell(allSquads[j].gameObject.transform.position);
+
+                        if ((destinationCoordinates.x == shipCenterCoordinates.x) && (destinationCoordinates.y == shipCenterCoordinates.y))
+                        {
+                            ok = true;
+                            allSquads[j].GetCommand(moveDestination, Command);
+                        }
+                    }
                 }
+
+               
             }
         }
+        
         if (ok)
         {
             childHeader.GetComponent<Text>().text = "Success";
@@ -93,7 +106,7 @@ public class CommandLine : MonoBehaviour
         else
         {
             childHeader.GetComponent<Text>().text = "Failed";
-            childImage.GetComponent<Image>().enabled = NieOk;
+            childImage.GetComponent<Image>().sprite = NieOk;
         }
     }
     private void Defend()
@@ -106,7 +119,7 @@ public class CommandLine : MonoBehaviour
     }
     private void Status()
     {
-        if (CommandData.Length == 1)
+        if (CommandData.Length == 1 || (CommandData.Length == 2 && CommandData[CommandData.Length-1] == " "))
         {
             StationContoller station = FindObjectOfType<StationContoller>();
 
@@ -121,17 +134,21 @@ public class CommandLine : MonoBehaviour
 
             SquadController[] allSquads = FindObjectsOfType<SquadController>();
             int sqIndex = 0;
-            Vector2 destinationCoordinates = sectors.ConvertArgumentToCoords(CommandData[1]);
-            for (int j = 0; j < allSquads.Length; j++)
+            Vector2 destinationCoordinates = new Vector2(0, 0);
+            if (sectors.CheckArgument(CommandData[1]))
             {
-                if (allSquads[j].tag != "Allies")
-                    continue;
-                Vector2 shipCenterCoordinates = sectors.ConvertPositionToCenterCell(allSquads[j].gameObject.transform.position);
-                if ((destinationCoordinates.x == shipCenterCoordinates.x) && (destinationCoordinates.y == shipCenterCoordinates.y))
+                destinationCoordinates = sectors.ConvertArgumentToCoords(CommandData[1]);
+                for (int j = 0; j < allSquads.Length; j++)
                 {
-                    sqIndex = j;
-                    ok = true;
-                    break;
+                    if (allSquads[j].tag != "Allies")
+                        continue;
+                    Vector2 shipCenterCoordinates = sectors.ConvertPositionToCenterCell(allSquads[j].gameObject.transform.position);
+                    if ((destinationCoordinates.x == shipCenterCoordinates.x) && (destinationCoordinates.y == shipCenterCoordinates.y))
+                    {
+                        sqIndex = j;
+                        ok = true;
+                        break;
+                    }
                 }
             }
             if (ok)
@@ -146,6 +163,7 @@ public class CommandLine : MonoBehaviour
             {
                 childHeader.GetComponent<Text>().text = "Failed";
                 childImage.GetComponent<Image>().sprite = NieOk;
+                input.text = "";
             }
         }
     }
@@ -154,14 +172,19 @@ public class CommandLine : MonoBehaviour
     {
         Debug.Log(sectors.RandomEdgePosition());
 
-        CommandData = input.text.Split(' ');
+        Debug.Log(arg0);
+
+        arg0.Trim();
+        arg0 = trimmer.Replace(arg0, " ");
+
+        Debug.Log(arg0);
+
+        CommandData = arg0.Split(' ');
 
         Command = CommandData[0].ToLower();
 
         if (Command != "status")
             destination = CommandData[CommandData.Length-1];
-
-        Debug.Log(input.text);
 
         if (BuiltInCommands.Contains(Command) && sectors)
         {

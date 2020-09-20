@@ -68,11 +68,47 @@ public class SectorsArray : MonoBehaviour
         int IndexRow = Int32.Parse(argument.Substring(1, argument.Length-1)) - 1;
         int IndexColumn = CharToIndex(letter);
 
+
         Coordinates = sectorsWorld[IndexRow,IndexColumn];
 
         Debug.Log(Coordinates);
 
         return Coordinates;
+    }
+
+    public bool CheckArgument(string argument)
+    {
+        bool check = true;
+
+        try
+        {
+
+            if (argument.GetType() == typeof(char))
+                return false;
+
+            if (argument[0].GetType() != typeof(char))
+                return false;
+
+            if (argument.Length == 1)
+                return false;
+
+            char letter = char.ToUpper(argument[0]);
+            int IndexRow = Int32.Parse(argument.Substring(1, argument.Length - 1)) - 1;
+            int IndexColumn = CharToIndex(letter);
+
+            if (IndexRow < 0 || IndexRow >= 20)
+                check = false;
+            if (IndexColumn < 0 || IndexColumn >= 20)
+                check = false;
+
+
+            return check;
+        }
+        catch (IndexOutOfRangeException)
+        {
+            Debug.Log("Catched");
+            return false;
+        }
     }
 
     public Vector2 ConvertPositionToCenterCell(Vector2 rawCoords)

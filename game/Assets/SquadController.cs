@@ -361,6 +361,7 @@ public class SquadController : MonoBehaviour
     public void CallEngage(GameObject enemy)
     {
         //CheckFillCellMove(currentCellPosition, "Engage");
+        //CheckFillCellMove(currentCellPosition, "None");
         collider2d.isTrigger = false;
         currentState = State.Engage;
         Enemies.Enqueue(enemy);
@@ -432,6 +433,7 @@ public class SquadController : MonoBehaviour
                 Enemies.Enqueue(FindObjectOfType<StationContoller>().gameObject);
                 if (currentState != State.Engage)
                 {
+                    //CheckFillCellMove(currentCellPosition, "None");
                     collider2d.isTrigger = false;
                     currentState = State.Engage;
                 }
@@ -450,6 +452,7 @@ public class SquadController : MonoBehaviour
 
             if (currentState != State.Engage)
             {
+             //   CheckFillCellMove(currentCellPosition, "None");
                 collider2d.isTrigger = false;
                 currentState = State.Engage;
             }
