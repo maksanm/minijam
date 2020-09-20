@@ -103,13 +103,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlByMouse: 0
-  damage: 20
+  damage: 25
   lifetimeProjectile: 1
-  attackCooldown: 0.05
+  attackCooldown: 0.25
   stepCooldown: 0
   visionRange: 1
   engageRange: 0
-  speed: 150
+  speed: 250
   nextWaypointDistance: 0.5
   launchForce: 5
   hitParticleSystem: {fileID: 5939729281946448494, guid: 2c6ea6b5022c5b644a1a4994ffcd9c96,

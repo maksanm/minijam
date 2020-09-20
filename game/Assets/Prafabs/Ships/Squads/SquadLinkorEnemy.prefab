@@ -103,7 +103,7 @@ MonoBehaviour:
   stepCooldown: 0
   visionRange: 3
   engageRange: 2
-  speed: 20
+  speed: 100
   nextWaypointDistance: 0.5
   launchForce: 15
   hitParticleSystem: {fileID: 5939729281946448494, guid: baba95906e235e04bacf8b87a2302b81,
