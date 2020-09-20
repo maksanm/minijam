@@ -236,8 +236,6 @@ public class SquadController : MonoBehaviour
         if (Enemies.Count != 0 && Enemy || Enemies.Count == 0 && Enemy)
             distance = CellDistance(transform.position, Enemy.transform.position);
 
-        Debug.Log(distance);
-
         if (Enemy && distance <= engageRange && transform.childCount != 0)
         {
             Rotation = Mathf.Atan2(Enemy.transform.position.y - transform.position.y,
@@ -379,9 +377,13 @@ public class SquadController : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void PlayExplosion()
     {
         boomAudio.Play();
+    }
+
+    private void Die()
+    {
         CheckFillCellMove(currentCellPosition, "None");
         DestroyImmediate(gameObject);
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SectorsArray : MonoBehaviour
 {
@@ -81,6 +82,42 @@ public class SectorsArray : MonoBehaviour
 
         cellCoordinates = grid.WorldToCell(rawCoords);
         coordinates = new Vector2(grid.CellToWorld(cellCoordinates).x + (grid.cellSize.x/2), grid.CellToWorld(cellCoordinates).y + (grid.cellSize.x / 2));
+
+        return coordinates;
+    }
+
+    public Vector2 RandomEdgePosition()
+    {
+        Vector2 coordinates;
+
+        int X;
+        int Y;
+
+        if (Random.Range(0,2) == 1)
+        {
+            if (Random.Range(0, 2) == 1)
+            {
+                X = 0;
+            }
+            else
+            {
+                X = 19;
+            }
+            coordinates = sectorsWorld[X, Random.Range(0, 20)];
+        }
+        else
+        {
+            if (Random.Range(0, 2) == 1)
+            {
+                Y = 0;
+            }
+            else
+            {
+                Y = 19;
+            }
+            coordinates = sectorsWorld[Random.Range(0, 20), Y];
+        }
+       
 
         return coordinates;
     }

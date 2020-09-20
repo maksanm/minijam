@@ -66,10 +66,11 @@ public class ShipController : MonoBehaviour
     private void Die()
     {
         Squad.attackCooldown += 5*Squad.stepCooldown;
-
+        Squad.PlayExplosion();
         isDead = true;
         transform.SetParent(null);
         GetComponent<Collider2D>().enabled = false;
+        
 
         // explosion animation
         animator.SetTrigger("Die");

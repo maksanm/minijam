@@ -96,6 +96,8 @@ public class CommandLine : MonoBehaviour
 
     private void SubmitName(string arg0)
     {
+        Debug.Log(sectors.RandomEdgePosition());
+
         CommandData = input.text.Split(' ');
 
         Command = CommandData[0];
