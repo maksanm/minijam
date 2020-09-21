@@ -101,7 +101,7 @@ MonoBehaviour:
   controlByMouse: 0
   damage: 100
   lifetimeProjectile: 0.8
-  attackCooldown: 2
+  attackCooldown: 0.25
   stepCooldown: 0
   visionRange: 2
   engageRange: 1
