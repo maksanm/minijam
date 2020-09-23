@@ -61,13 +61,12 @@ public class Timer : MonoBehaviour
         string[] chars = { "j", "j", ":", "j", "j" };
 
         chars[chars.Length-1] = firstOnce.ToString();
-        Debug.Log(chars[0]);
+
         chars[chars.Length-2] = firstTwice.ToString();
         chars[chars.Length-4] = secondOnce.ToString();
         chars[chars.Length-5] = secondTwice.ToString();
 
         text = string.Join("",chars);
-        Debug.Log(text);
 
         return text;
     }

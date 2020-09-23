@@ -170,14 +170,9 @@ public class CommandLine : MonoBehaviour
 
     private void SubmitName(string arg0)
     {
-        Debug.Log(sectors.RandomEdgePosition());
-
-        Debug.Log(arg0);
 
         arg0.Trim();
         arg0 = trimmer.Replace(arg0, " ");
-
-        Debug.Log(arg0);
 
         CommandData = arg0.Split(' ');
 

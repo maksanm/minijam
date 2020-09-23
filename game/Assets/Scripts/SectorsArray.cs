@@ -3,52 +3,75 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class SectorsArray : MonoBehaviour
 {
+    public Transform CanvasRoot;
+    public Text TextPrefab;
+
     [HideInInspector]
     public Grid grid;
 
-    private Vector2[,] sectorsWorld = new Vector2[20, 20];
+    private Tilemap tilemap;
+
+    private Vector2[,] sectorsWorld;
 
 
-    // Po4ti univeraslno, no niezvestno kak polu4it FirstXY
     void Start()
     {
         grid = GetComponentInParent<Grid>();
+        tilemap = GetComponent<Tilemap>();
 
-        //Vector2 startPointOffset = grid.transform.position;
-        Vector2 FirstXY = new Vector2(-19.3f,0f);
-        Debug.Log(grid);
+        sectorsWorld = new Vector2[tilemap.size.x, tilemap.size.y];
+        Vector2 FirstXY = new Vector2(tilemap.CellToWorld(tilemap.origin).x,
+                                           tilemap.CellToWorld(new Vector3Int(tilemap.origin.x,tilemap.origin.y+tilemap.size.y-1, 
+                                                               tilemap.origin.z)).y);
+        Debug.Log(FirstXY);
+
         float step = grid.cellSize.x;
 
-        //for (int i = 0; i < 20; i++)
-        //{
-        //    for (int j = 0; j < 20; j++)
-        //    {
-        //        sectors[i, j] = new Vector2(-20.67f + 64.55f / 40 + 64.55f * i / 20, -62.65f + 64.55f / 40 + 64.55f * j / 20);
-        //        Debug.Log(sectors[i, j]);
-        //    }
-        //}
+        Debug.Log(GetComponent<Tilemap>().CellToWorld(GetComponent<Tilemap>().origin));
 
-
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < tilemap.size.x; i++)
         {
-            for (int j = 0; j < 20; j++)
+            for (int j = 0; j < tilemap.size.y; j++)
             {
                 Vector2 FixedPosition = ConvertPositionToCenterCell(FirstXY);
                 sectorsWorld[i, j] = new Vector2(FixedPosition.x, FixedPosition.y);
+
+                TextCellNumerate(i+1, j, FixedPosition);
+
                 FirstXY = FixedPosition;
 
                 FirstXY.x += step;
-                //Debug.Log(sectorsWorld[i, j]);
             }
-            FirstXY.x = -19.3f;
+            FirstXY.x = tilemap.CellToWorld(tilemap.origin).x;
             FirstXY.y -= step;
         }
     }
-    // 61,4 length, x0 = -19,4 , y0 = 0.
+
+    private void TextCellNumerate(int row, int column, Vector2 position)
+    {
+        float offset = 0.5f;
+
+        Text label = Instantiate<Text>(TextPrefab);
+        label.rectTransform.SetParent(CanvasRoot.transform, false);
+        label.rectTransform.anchoredPosition = new Vector2(position.x+tilemap.cellSize.x/2-offset, 
+                                                           position.y - tilemap.cellSize.y / 2+offset);
+        label.text = IndexToChar(column) + row.ToString();
+    }
+
+    private char IndexToChar(int index)
+    {
+        char letter;
+
+        letter = (char)(index + 65);
+
+        return letter;
+    }
 
     private int CharToIndex(char letter)
     {

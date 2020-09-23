@@ -30,7 +30,6 @@ public class EnemyAI : MonoBehaviour
     private IEnumerator SpawnEnemy(float cooldownTime)
     {
         isCooldown = true;
-        Debug.Log("SpawnEnemy... ");
 
         Vector2 DestionationCoords = sectors.RandomEdgePosition();
 
@@ -46,9 +45,7 @@ public class EnemyAI : MonoBehaviour
        
 
         GameObject NewEnemyShip = Instantiate(Squads[chose], new Vector3(DestionationCoords.x, DestionationCoords.y, 0), Quaternion.identity);
-        Debug.Log(NewEnemyShip);
-        Debug.Log(stationContoller);
-        Debug.Log(stationContoller.gameObject.transform.position);
+
         NewEnemyShip.GetComponent<SquadController>().GetCommand(stationContoller.gameObject.transform.position, "move");
 
         yield return new WaitForSecondsRealtime(cooldownTime);

@@ -195,6 +195,15 @@ public class TilemapUI : MonoBehaviour
 
     }
 
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = new Color(255,255,255,0.3f);
+
+    //    Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+    //    Vector3Int clickCellPosition = map.WorldToCell(clickWorldPosition);
+    //    Debug.Log("rusujem -> " + clickCellPosition);
+    //    Gizmos.DrawCube(new Vector2(map.CellToWorld(clickCellPosition).x+ map.cellSize.x/2, map.CellToWorld(clickCellPosition).y + map.cellSize.y / 2), map.cellSize);
+    //}
 
     // Update is called once per frame
     void Update()
