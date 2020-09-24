@@ -5,8 +5,8 @@ using Pathfinding;
 
 public class SquadController : MonoBehaviour
 {
-    [Header("Dev")]
-    public bool controlByMouse;
+    [Header("Discription")]
+    public string divisionClass;
 
     [Header("Combat")]
     public float damage;
@@ -435,6 +435,16 @@ public class SquadController : MonoBehaviour
     public void GetCommand(Vector2 target, string command)
     {
         if (command == "move")
+        {
+            this.target = target;
+            SwitchState(State.Moving, target);
+        }
+        else if (command == "swap")
+        {
+            this.target = target;
+            SwitchState(State.Moving, target);
+        }
+        else if (command == "split")
         {
             this.target = target;
             SwitchState(State.Moving, target);

@@ -9,6 +9,7 @@ public class Settings : MonoBehaviour
 {
 	public AudioMixer am;
     public float sliderValue;
+
     void Start()
     {
         

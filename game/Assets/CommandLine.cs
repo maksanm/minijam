@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class CommandLine : MonoBehaviour
 
     private SectorsArray sectors;
 
-    private List<string> BuiltInCommands = new List<string>{"help", "move", "defend", "status"};
+    private List<string> BuiltInCommands = new List<string>{"help", "move", "swap", "split", "status"};
 
     public Sprite Ok;
     public Sprite NieOk;
@@ -62,7 +63,7 @@ public class CommandLine : MonoBehaviour
         childHeader.GetComponent<Text>().text = "Help";
         childImage.GetComponent<Image>().sprite = Question;
 
-        childLogs.GetComponent<Text>().text = "move, status";
+        childLogs.GetComponent<Text>().text = "move, swap, split, status";
 
     }
     private void Move()
@@ -71,6 +72,7 @@ public class CommandLine : MonoBehaviour
 
         SquadController[] allSquads = FindObjectsOfType<SquadController>();
         Vector2 moveDestination = new Vector2(0, 0);
+
         if (sectors.CheckArgument(destination))
         {
             moveDestination = sectors.ConvertArgumentToCoords(destination);
@@ -84,6 +86,7 @@ public class CommandLine : MonoBehaviour
                     {
                         if (allSquads[j].tag != "Allies")
                             continue;
+
                         Vector2 shipCenterCoordinates = sectors.ConvertPositionToCenterCell(allSquads[j].gameObject.transform.position);
 
                         if ((destinationCoordinates.x == shipCenterCoordinates.x) && (destinationCoordinates.y == shipCenterCoordinates.y))
@@ -111,12 +114,185 @@ public class CommandLine : MonoBehaviour
     }
     private void Swap()
     {
-        for (int i = 1; i < CommandData.Length - 1; i++)
-        {
-            childHeader.GetComponent<Text>().text = "Status:";
+        bool ok = false;
 
+        SquadController[] allSquads = FindObjectsOfType<SquadController>();
+
+        Vector2 move1Ship = new Vector2(0, 0);
+        Vector2 move2Ship = new Vector2(0, 0);
+
+        Debug.Log("Swap");
+
+        if (sectors.CheckArgument(CommandData[1]) && sectors.CheckArgument(CommandData[2]))
+        {
+            move1Ship = sectors.ConvertArgumentToCoords(CommandData[1]);
+            move2Ship = sectors.ConvertArgumentToCoords(CommandData[2]);
+
+            for (int j = 0; j < allSquads.Length; j++)
+            {
+
+                if (allSquads[j].tag != "Allies")
+                    continue;
+
+                Vector2 shipCenterCoordinates = sectors.ConvertPositionToCenterCell(allSquads[j].gameObject.transform.position);
+
+                if (move1Ship == shipCenterCoordinates)
+                {
+                    Debug.Log("swap1");
+                    ok = true;
+                    allSquads[j].GetCommand(move2Ship, Command);
+                }
+                else if (move2Ship == shipCenterCoordinates)
+                {
+                    Debug.Log("swap2");
+                    ok = true;
+                    allSquads[j].GetCommand(move1Ship, Command);
+                }
+            }
         }
+        if (ok)
+        {
+            childHeader.GetComponent<Text>().text = "Success";
+            childImage.GetComponent<Image>().sprite = Ok;
+        }
+        else
+        {
+            childHeader.GetComponent<Text>().text = "Failed";
+            childImage.GetComponent<Image>().sprite = NieOk;
+        }
+
     }
+    private void Split()
+    {
+        bool ok = false;
+
+        SquadController[] allSquads = FindObjectsOfType<SquadController>();
+        SquadController[] splitedSquads;
+
+        string splitSpec = CommandData[1];
+
+        if (sectors.CheckArgument(CommandData[2]) && sectors.CheckArgument(CommandData[3]) && splitSpec[0] == '-')
+        {
+            Vector2 origin = sectors.ConvertArgumentToCoords(CommandData[2]);
+            Vector2 destination = sectors.ConvertArgumentToCoords(CommandData[3]);
+
+
+
+            // -s1ml -> 1 small 1 medium 1 large === -sml === -sm1l === -sml1
+
+            int smallCount = 0;
+            int mediumCount = 0;
+            int largeCount = 0;
+
+            for (int index = 1; index < splitSpec.Length; index++)
+            {
+                char letter = splitSpec[index];
+
+                switch (letter)
+                {
+                    case 's':
+                        if (index + 1 < splitSpec.Length)
+                        {
+                            char letterArg = splitSpec[index + 1];
+                            if (Char.IsDigit(letterArg))
+                                smallCount = (int)Char.GetNumericValue(letterArg);
+                            else
+                                smallCount = 1;
+                        }
+                        else
+                        {
+                            smallCount = 1;
+                        }
+                        break;
+                    case 'm':
+                        if (index + 1 < splitSpec.Length)
+                        {
+                            char letterArg = splitSpec[index + 1];
+                            if (Char.IsDigit(letterArg))
+                                mediumCount = (int)Char.GetNumericValue(letterArg);
+                            else
+                                mediumCount = 1;
+                        }
+                        else
+                        {
+                            mediumCount = 1;
+                        }
+                        break;
+                    case 'l':
+                        if (index + 1 < splitSpec.Length)
+                        {
+                            char letterArg = splitSpec[index + 1];
+                            if (Char.IsDigit(letterArg))
+                                largeCount = (int)Char.GetNumericValue(letterArg);
+                            else
+                                largeCount = 1;
+                        }
+                        else
+                        {
+                            largeCount = 1;
+                        }
+                        break;
+                }
+            }
+
+            Debug.Log("Split Counts->" + " s: " + smallCount + " m: " + mediumCount + " l: " + largeCount);
+
+            for (int j = 0; j < allSquads.Length; j++)
+            {
+
+                if (allSquads[j].tag != "Allies")
+                   continue;
+
+                Vector2 shipCenterCoordinates = sectors.ConvertPositionToCenterCell(allSquads[j].gameObject.transform.position);
+
+                Debug.Log(shipCenterCoordinates + " " + origin);
+
+                if (shipCenterCoordinates == origin)
+                {
+                    if (allSquads[j].divisionClass == "small" && smallCount > 0)
+                    {
+                        allSquads[j].GetCommand(destination, "split");
+                        smallCount -= 1;
+                        ok = true;
+                    }
+                    else if (allSquads[j].divisionClass == "medium" && mediumCount > 0)
+                    {
+                        allSquads[j].GetCommand(destination, "split");
+                        mediumCount -= 1;
+                        ok = true;
+                    }
+                    else if (allSquads[j].divisionClass == "large" && largeCount > 0)
+                    {
+                        allSquads[j].GetCommand(destination, "split");
+                        largeCount -= 1;
+                        ok = true;
+                    }
+
+                }
+            }
+
+               
+            
+        }
+
+        if (ok)
+        {
+            childHeader.GetComponent<Text>().text = "Success";
+            childImage.GetComponent<Image>().sprite = Ok;
+        }
+        else
+        {
+            childHeader.GetComponent<Text>().text = "Failed";
+            childImage.GetComponent<Image>().sprite = NieOk;
+        }
+
+    }
+
+
+
+
+
+
     private void Status()
     {
         if (CommandData.Length == 1 || (CommandData.Length == 2 && CommandData[CommandData.Length-1] == " "))
@@ -175,7 +351,6 @@ public class CommandLine : MonoBehaviour
         arg0 = trimmer.Replace(arg0, " ");
 
         CommandData = arg0.Split(' ');
-
         Command = CommandData[0].ToLower();
 
         if (Command != "status")
@@ -188,10 +363,12 @@ public class CommandLine : MonoBehaviour
                 Help();
             else if (Command == "move" && CommandData.Length >= 3)
                 Move();
-            else if (Command == "swap" && CommandData.Length == 2)
+            else if (Command == "swap" && CommandData.Length == 3)
                 Swap();
             else if (Command == "status" && CommandData.Length >= 1)
                 Status();
+            else if (Command == "split" && CommandData.Length == 4)
+                Split();
             else
             {
                 childHeader.GetComponent<Text>().text = "Failed";

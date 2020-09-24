@@ -102,10 +102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7cecab7e812ac498f82a0dfd6d042a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlByMouse: 0
+  divisionClass: small
   damage: 10
   lifetimeProjectile: 1
   attackCooldown: 0.05
+  thirstPower: 0
   stepCooldown: 0
   visionRange: 1
   engageRange: 0
