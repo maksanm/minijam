@@ -42,10 +42,10 @@ public class Timer : MonoBehaviour
         }
         if (secondOnce > 9)
         {
-            firstOnce = 0;
-            firstTwice += 1;
+            secondOnce = 0;
+            secondTwice += 1;
         }
-        if (firstTwice > 9)
+        if (secondTwice > 9)
         {
             Debug.Log("LOL");
         }

@@ -10,6 +10,7 @@ public class StationContoller : MonoBehaviour
 
     private Animator animator;
 
+    [HideInInspector]
     public float currentHealth;
 
     private bool isDead;
@@ -69,7 +70,6 @@ public class StationContoller : MonoBehaviour
 
         // explosion animation
         animator.SetTrigger("Die");
-        //...
 
         // & Destroy
         Destroy(gameObject, 4f);

@@ -10,6 +10,8 @@ public class BeamProjectile : MonoBehaviour
     public float damage;
     [HideInInspector]
     public float lifetime;
+    [HideInInspector]
+    public float thirstPower;
 
     // Start is called before the first frame update
     void Start()

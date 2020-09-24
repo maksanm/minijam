@@ -37,10 +37,10 @@ public class ShipController : MonoBehaviour
             if (collider.tag == "Projectile")
             {
                 BeamProjectile beam = collider.GetComponent<BeamProjectile>();
-                if (collider.GetComponent<BeamProjectile>().team != tag)
+                if (beam.team != tag)
                 {
-                    Destroy(collider.gameObject, 0.1f);
                     TakeDamage(beam.damage);
+                    Destroy(collider.gameObject, beam.thirstPower);
                 }
             }
         }
@@ -65,7 +65,7 @@ public class ShipController : MonoBehaviour
 
     private void Die()
     {
-        Squad.attackCooldown += 5*Squad.stepCooldown;
+        Squad.attackCooldown += 2*Squad.stepCooldown;
         Squad.PlayExplosion();
         isDead = true;
         transform.SetParent(null);

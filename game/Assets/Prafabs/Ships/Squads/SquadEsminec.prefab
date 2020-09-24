@@ -102,6 +102,7 @@ MonoBehaviour:
   damage: 100
   lifetimeProjectile: 0.8
   attackCooldown: 0.25
+  thirstPower: 0.05
   stepCooldown: 0
   visionRange: 2
   engageRange: 1

@@ -12,6 +12,7 @@ public class SquadController : MonoBehaviour
     public float damage;
     public float lifetimeProjectile;
     public float attackCooldown;
+    public float thirstPower;
     [HideInInspector]
     public float stepCooldown;
 
@@ -67,7 +68,7 @@ public class SquadController : MonoBehaviour
     public enum State
     {
         Waiting,
-        Defend,
+        Regroup,
         Moving,
         Engage,
     }
@@ -76,6 +77,8 @@ public class SquadController : MonoBehaviour
 
     void Awake()
     {
+
+        target = Vector2.zero;
 
         currentState = State.Waiting;
 
@@ -90,12 +93,7 @@ public class SquadController : MonoBehaviour
 
         stepCooldown = attackCooldown / transform.childCount;
 
-        StartCoroutine(Kretin());
-
-        if (team == "Allies")
-            ButtonTmp = 1;
-        else
-            ButtonTmp = 0;
+        StartCoroutine(FillCell());
 
         AudioSource[] audio = GetComponents<AudioSource>();
         shotAudio = audio[0];
@@ -111,7 +109,7 @@ public class SquadController : MonoBehaviour
         }
     }
 
-    private IEnumerator Kretin()
+    private IEnumerator FillCell()
     {
         isKretin = true;
         yield return new WaitForSecondsRealtime(0.1f);
@@ -128,8 +126,8 @@ public class SquadController : MonoBehaviour
             case State.Waiting:
                 UpdateWaitingState();
                 break;
-            case State.Defend:
-                UpdateDefendState();
+            case State.Regroup:
+                UpdateRegroupState();
                 break;
             case State.Moving:
                 UpdateMovingState();
@@ -140,76 +138,83 @@ public class SquadController : MonoBehaviour
         }
     }
 
+    //  --- Begin states
+
+    
+
+    // Enter state
+    private void EnterWaitingState()
+    {
+        // Changing current state
+        currentState = State.Waiting;
+
+        collider2d.isTrigger = false;
+        currentWaypoint = 0;
+        SetAnim(0);
+    }
+    private void EnterRegroupState()
+    {
+        // Changing current state
+        currentState = State.Regroup;
+
+    }
+    private void EnterMovingState(Vector2 movetarget)
+    {
+        // Changing current state
+        currentState = State.Moving;
+
+        collider2d.isTrigger = true;
+        SetAnim(1);
+        seeker.StartPath(transform.position, movetarget, OnPathComplete);
+    }
+    private void EnterEngageState()
+    {
+        // Changing current state
+        currentState = State.Engage;
+        //
+
+        collider2d.isTrigger = false;
+    }
+
+    // Update state
     private void UpdateWaitingState()
     {
-        if (Input.GetMouseButtonDown(ButtonTmp) && controlByMouse)
-        {
-            screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-            Vector3Int position = GetCellInGrid(screenPosition);
-
-            // Converting to WorldCoordinates
-            target = new Vector2(grid.CellToWorld(position).x + 1.65f, grid.CellToWorld(position).y + 1.65f);
-            StartMove(target);
-        }
-        else if (transform.childCount == 0)
+        if (transform.childCount == 0)
         {
             Die();
         }
         else
         {
             CheckEnemies();
+            StartCoroutine(FillCell());
+
+            if (target != Vector2.zero)
+            {
+                SwitchState(State.Moving,target);
+            }
         }
     }
-    private void UpdateDefendState()
+    private void UpdateRegroupState()
     {
-    }
-    private void StartMove(Vector2 target)
-    {
-        // Changing current state to Moving
-        collider2d.isTrigger = true;
-        currentState = State.Moving;
-
-        SetAnim(1);
-
-        seeker.StartPath(transform.position, target, OnPathComplete);
     }
     private void UpdateMovingState()
     {
-        if (Input.GetMouseButtonDown(ButtonTmp) && controlByMouse)
-        {
-            screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-            Vector3Int position = GetCellInGrid(screenPosition);
+         if (path == null)
+         {
+            return;
+         }
 
-            // Converting to WorldCoordinates
-            target = new Vector2(grid.CellToWorld(position).x + 1.65f, grid.CellToWorld(position).y + 1.65f);
-            StartMove(target);
+        if (currentWaypoint >= path.vectorPath.Count)
+        {
+            StartCoroutine(FillCell());
+            SwitchState(State.Waiting);
+            reachedEndOfPath = true;
+            return;
         }
         else
         {
-            if (path == null)
-            {
-                return;
-            }
+            reachedEndOfPath = false;
 
-            if (currentWaypoint >= path.vectorPath.Count)
-            {
-                collider2d.isTrigger = false;
-                StartCoroutine(Kretin());
-                currentState = State.Waiting;
-
-                currentWaypoint = 0;
-
-                SetAnim(0);
-                reachedEndOfPath = true;
-                return;
-            }
-            else
-            {
-                SetAnim(1);
-                reachedEndOfPath = false;
-            }
 
             Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
             Vector2 force = direction * speed * Time.deltaTime;
@@ -229,9 +234,18 @@ public class SquadController : MonoBehaviour
                 currentWaypoint++;
             }
         }
+        
     }
     private void UpdateEngageState()
     {
+        Vector3Int currentPos = grid.WorldToCell(new Vector2(transform.position.x, transform.position.y));
+
+        // Changing color of Grid Cell
+        if (currentState == State.Moving)
+            CheckFillCellMove(currentPos, tag);
+        //
+
+
         int distance = 1;
 
         CheckEnemies();
@@ -284,25 +298,78 @@ public class SquadController : MonoBehaviour
             if (currentCellPosition != grid.WorldToCell(transform.position))
                 CheckFillCell(currentCellPosition, "None");
 
-            currentState = State.Moving;
 
             currentCellPosition = grid.WorldToCell(transform.position);
-
             Vector2 targetV2 = new Vector2(grid.CellToWorld(currentCellPosition).x + 1.65f, grid.CellToWorld(currentCellPosition).y + 1.65f);
 
-            SetAnim(1);
-
-            seeker.StartPath(transform.position, targetV2, OnPathComplete);
+            SwitchState(State.Moving, targetV2);
 
             CheckFillCell(currentCellPosition, tag);
         }
     }
 
+    // Exit state
+    private void ExitWaitingState()
+    {
 
-    private int CellDistance(Vector3 Origin, Vector3 Target)
+    }
+    private void ExitRegroupState()
+    {
+
+    }
+    private void ExitMovingState()
+    {
+        if (CellDistance((Vector3)transform.position,(Vector3)target) == 0)
+            target = Vector2.zero;
+    }
+    private void ExitEngageState()
+    {
+
+    }
+
+    private void SwitchState(State newState, Vector2 movetarget = default(Vector2))
+    {
+        switch (currentState)
+        {
+            case State.Waiting:
+                ExitWaitingState();
+                break;
+            case State.Regroup:
+                ExitRegroupState();
+                break;
+            case State.Moving:
+                ExitMovingState();
+                break;
+            case State.Engage:
+                ExitEngageState();
+                break;
+        }
+        switch (newState)
+        {
+            case State.Waiting:
+                EnterWaitingState();
+                break;
+            case State.Regroup:
+                EnterRegroupState();
+                break;
+            case State.Moving:
+                EnterMovingState(movetarget);
+                break;
+            case State.Engage:
+                EnterEngageState();
+                break;
+        }
+    }
+
+
+
+    //  --- End states
+
+
+    private int CellDistance(Vector3 Origin, Vector3 Destination)
     {
         Vector3Int enemyCellPosition = grid.WorldToCell(new Vector2(Origin.x, Origin.y));
-        Vector3Int alliseCellPosition = grid.WorldToCell(new Vector2(Target.x, Target.y));
+        Vector3Int alliseCellPosition = grid.WorldToCell(new Vector2(Destination.x, Destination.y));
 
         int distance = Mathf.FloorToInt(Vector2.Distance(new Vector2(enemyCellPosition.x, enemyCellPosition.y),
                                                          new Vector2(alliseCellPosition.x, alliseCellPosition.y)));
@@ -348,6 +415,7 @@ public class SquadController : MonoBehaviour
                 shotAudio.Play();
                 beam.team = tag;
                 beam.damage = damage;
+                beam.thirstPower = thirstPower;
                 beam.lifetime = lifetimeProjectile;
             }
             launchedProjectile.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(RotationAlly), Mathf.Sin(RotationAlly)) * launchForce;
@@ -360,10 +428,7 @@ public class SquadController : MonoBehaviour
     // GameObject need to get Enemy (transform and etc.)
     public void CallEngage(GameObject enemy)
     {
-        //CheckFillCellMove(currentCellPosition, "Engage");
-        //CheckFillCellMove(currentCellPosition, "None");
-        collider2d.isTrigger = false;
-        currentState = State.Engage;
+        SwitchState(State.Engage);
         Enemies.Enqueue(enemy);
     }
 
@@ -371,7 +436,8 @@ public class SquadController : MonoBehaviour
     {
         if (command == "move")
         {
-            StartMove(target);
+            this.target = target;
+            SwitchState(State.Moving, target);
         }
     }
 
@@ -389,16 +455,8 @@ public class SquadController : MonoBehaviour
 
     private void CheckEnemies()
     {
-
         Vector2 targetTmp;
         Vector3Int targetPos;
-
-        Vector3Int currentPos = grid.WorldToCell(new Vector2(transform.position.x, transform.position.y));
-
-        // Changing color of Grid Cell
-        if (currentState == State.Moving)
-            CheckFillCellMove(currentPos, tag);
-        //
 
         int distance;
         float minDistance = Mathf.Infinity;
@@ -429,13 +487,10 @@ public class SquadController : MonoBehaviour
             distance = CellDistance(transform.position, FindObjectOfType<StationContoller>().transform.position);
             if ((distance < minDistance || minDistance == -1) && distance <= engageRange)
             {
-                //CheckFillCellMove(currentCellPosition, "Engage");
                 Enemies.Enqueue(FindObjectOfType<StationContoller>().gameObject);
                 if (currentState != State.Engage)
                 {
-                    //CheckFillCellMove(currentCellPosition, "None");
-                    collider2d.isTrigger = false;
-                    currentState = State.Engage;
+                    SwitchState(State.Engage);
                 }
             }
         }
@@ -443,23 +498,17 @@ public class SquadController : MonoBehaviour
         // If enemy in EngageRange -> Initiate Battle
         if (minDistanceIndex != -1 && minDistance <= engageRange)
         {
-            //Enemy = ListOfEnemies[minDistanceIndex].gameObject;
-
-            //CheckFillCellMove(currentCellPosition, "Engage");
             ListOfEnemies[minDistanceIndex].gameObject.GetComponent<SquadController>().CallEngage(gameObject);
 
             Enemies.Enqueue(ListOfEnemies[minDistanceIndex].gameObject);
 
             if (currentState != State.Engage)
             {
-             //   CheckFillCellMove(currentCellPosition, "None");
-                collider2d.isTrigger = false;
-                currentState = State.Engage;
+                SwitchState(State.Engage);
             }
                 
         }
 
-        // If enemy in VisionRange -> Can be attacked in DefendMode \\ In WaitingMode just watch on enemy
         if (minDistanceIndex != -1 && (visionRange >= minDistance))
         {
             Rotation = Mathf.Atan2(ListOfEnemies[minDistanceIndex].gameObject.transform.position.y - transform.position.y,
@@ -476,14 +525,14 @@ public class SquadController : MonoBehaviour
         {
             if (Tilemap)
             {
-                Tilemap.RefreshCell(NewCurrentPos, currentCellPosition, 0, team);
+                Tilemap.RefreshCell(NewCurrentPos, currentCellPosition, team);
             }
             currentCellPosition = NewCurrentPos;
         }
         else if (team == "None")
-            Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, engageRange, team);
+            Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, team);
         else if (team == "Engage")
-            Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, 0, team);
+            Tilemap.RefreshCell(NewCurrentPos, NewCurrentPos, team);
     }
 
     private void CheckFillCell(Vector3Int Pos, string team)
@@ -492,11 +541,10 @@ public class SquadController : MonoBehaviour
         {
             if (team == "None")
             {
-                Tilemap.FillCell(Pos, engageRange, team);
-                //Tilemap.FillCell(Pos, 0, tag);
+                Tilemap.FillCell(Pos, team);
             }
             else
-                Tilemap.FillCell(Pos, 0, team);
+                Tilemap.FillCell(Pos, team);
         }
         currentCellPosition = Pos;
     }

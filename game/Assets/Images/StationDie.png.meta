@@ -1,7 +1,115 @@
 fileFormatVersion: 2
 guid: 006067f9f414c704dbdd65b0a017d994
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 8751398094229129275
+    second: StationDie_0
+  - first:
+      213: -6813531071515356470
+    second: StationDie_1
+  - first:
+      213: -5833078231964292019
+    second: StationDie_2
+  - first:
+      213: 6543506513342480301
+    second: StationDie_3
+  - first:
+      213: 4424763712408951137
+    second: StationDie_4
+  - first:
+      213: -8402049166252108845
+    second: StationDie_5
+  - first:
+      213: 2216175862451506054
+    second: StationDie_6
+  - first:
+      213: 4831486438530715106
+    second: StationDie_7
+  - first:
+      213: -2366325135326286023
+    second: StationDie_8
+  - first:
+      213: 3711089001487477757
+    second: StationDie_9
+  - first:
+      213: -6668865624294262184
+    second: StationDie_10
+  - first:
+      213: 8220199377085024050
+    second: StationDie_11
+  - first:
+      213: -3950967577281823732
+    second: StationDie_12
+  - first:
+      213: -2789378558008889268
+    second: StationDie_13
+  - first:
+      213: 634144403998951116
+    second: StationDie_14
+  - first:
+      213: 2308279536494473610
+    second: StationDie_15
+  - first:
+      213: -5539002201395795979
+    second: StationDie_16
+  - first:
+      213: 8525689866732183782
+    second: StationDie_17
+  - first:
+      213: -645320554909257007
+    second: StationDie_18
+  - first:
+      213: 2955574539052081766
+    second: StationDie_19
+  - first:
+      213: 1165919360508299480
+    second: StationDie_20
+  - first:
+      213: 2088224157292825469
+    second: StationDie_21
+  - first:
+      213: -1038653628370837252
+    second: StationDie_22
+  - first:
+      213: 173588168113155577
+    second: StationDie_23
+  - first:
+      213: -7671349482789132895
+    second: StationDie_24
+  - first:
+      213: 1212895159934534498
+    second: StationDie_25
+  - first:
+      213: 5128912578078340654
+    second: StationDie_26
+  - first:
+      213: -4312032150058445582
+    second: StationDie_27
+  - first:
+      213: 8434800955833921650
+    second: StationDie_28
+  - first:
+      213: 238051975166599607
+    second: StationDie_29
+  - first:
+      213: -5316599327708317033
+    second: StationDie_0
+  - first:
+      213: 1071702694313377132
+    second: StationDie_1
+  - first:
+      213: -881278387408624287
+    second: StationDie_2
+  - first:
+      213: -1850379246687573700
+    second: StationDie_3
+  - first:
+      213: 6759782163412294490
+    second: StationDie_4
+  - first:
+      213: 6613167461176666594
+    second: StationDie_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -97,7 +205,133 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: StationDie_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.3, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79a7dda7415a736b0800000000000000
+      internalID: -5316599327708317033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StationDie_1
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.3, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6db06f1ce37fde00800000000000000
+      internalID: 1071702694313377132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StationDie_2
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.3, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 165a742d9f115c3f0800000000000000
+      internalID: -881278387408624287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StationDie_3
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.3, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c39ae6df0e12256e0800000000000000
+      internalID: -1850379246687573700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StationDie_4
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.3, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5b163110129fcd50800000000000000
+      internalID: 6759782163412294490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StationDie_5
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.3, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e96b9394c0b6cb50800000000000000
+      internalID: 6613167461176666594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

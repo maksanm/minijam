@@ -109,7 +109,7 @@ public class CommandLine : MonoBehaviour
             childImage.GetComponent<Image>().sprite = NieOk;
         }
     }
-    private void Defend()
+    private void Swap()
     {
         for (int i = 1; i < CommandData.Length - 1; i++)
         {
@@ -188,8 +188,8 @@ public class CommandLine : MonoBehaviour
                 Help();
             else if (Command == "move" && CommandData.Length >= 3)
                 Move();
-            else if (Command == "defend" && CommandData.Length >= 2)
-                Defend();
+            else if (Command == "swap" && CommandData.Length == 2)
+                Swap();
             else if (Command == "status" && CommandData.Length >= 1)
                 Status();
             else

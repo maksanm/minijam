@@ -127,7 +127,7 @@ public class SectorsArray : MonoBehaviour
 
             return check;
         }
-        catch (IndexOutOfRangeException)
+        catch (Exception)            //IndexOutOfRangeException
         {
             Debug.Log("Catched");
             return false;

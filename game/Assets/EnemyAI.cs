@@ -33,18 +33,18 @@ public class EnemyAI : MonoBehaviour
 
         Vector2 DestionationCoords = sectors.RandomEdgePosition();
 
-        int chose = 0;
+        int choise = 0;
         int randomValue = Random.Range(0, 100);
 
         if (randomValue >= 95)
-            chose = 2;
+            choise = 2;
         else if (randomValue < 95 && randomValue >= 80)
-            chose = 1;
+            choise = 1;
         else if (randomValue < 80)
-            chose = 0;
+            choise = 0;
        
 
-        GameObject NewEnemyShip = Instantiate(Squads[chose], new Vector3(DestionationCoords.x, DestionationCoords.y, 0), Quaternion.identity);
+        GameObject NewEnemyShip = Instantiate(Squads[choise], new Vector3(DestionationCoords.x, DestionationCoords.y, 0), Quaternion.identity);
 
         NewEnemyShip.GetComponent<SquadController>().GetCommand(stationContoller.gameObject.transform.position, "move");
 

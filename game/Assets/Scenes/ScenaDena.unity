@@ -298,6 +298,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -29.3
       objectReference: {fileID: 0}
+    - target: {fileID: 2221452784649018998, guid: eeb8db03eed6538428ee4f8ab8ac6b97,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2221452784954754741, guid: eeb8db03eed6538428ee4f8ab8ac6b97,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2770094199884911362, guid: eeb8db03eed6538428ee4f8ab8ac6b97,
         type: 3}
       propertyPath: speed
@@ -1628,7 +1638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1444966231
 Transform:
   m_ObjectHideFlags: 0
@@ -10656,7 +10666,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!1 &1714340213
 GameObject:
@@ -14445,7 +14455,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TileToSetDefault: {fileID: 11400000, guid: e9b24d003f1116848a8a5528918322d4, type: 2}
-  TileToSetEngage: {fileID: 11400000, guid: 4b47a979e58eef744a8459342b7b975c, type: 2}
   TileToSetBlue: {fileID: 11400000, guid: 2d47178907e8ef24da31351cb75f65fb, type: 2}
   TileToSetRed: {fileID: 11400000, guid: 475d59e1beb224043be67369c2d4bb5e, type: 2}
 --- !u!1001 &1717517514
@@ -14944,12 +14953,12 @@ PrefabInstance:
     - target: {fileID: 5308351417051521920, guid: e2611791d0526f64698a021f32df21bf,
         type: 3}
       propertyPath: cooldownSpawnTime
-      value: 8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5308351417051521920, guid: e2611791d0526f64698a021f32df21bf,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5308351417051521921, guid: e2611791d0526f64698a021f32df21bf,
         type: 3}
@@ -15224,6 +15233,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 8960434979384450805, guid: 5bb0c21d981a33e47b790d040d9356de,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8960434979384450806, guid: 5bb0c21d981a33e47b790d040d9356de,
         type: 3}
       propertyPath: m_LocalRotation.x
