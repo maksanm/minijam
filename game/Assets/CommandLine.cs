@@ -46,7 +46,7 @@ public class CommandLine : MonoBehaviour
 
         childHeader = input.transform.GetChild(3).gameObject;
         childImage = input.transform.GetChild(4).gameObject;
-        childLogs = input.transform.GetChild(5).gameObject;
+        childLogs = input.transform.GetChild(5).GetChild(0).gameObject;
 
         childImage.GetComponent<Image>().sprite = null;
         childImage.GetComponent<Image>().enabled = true;
